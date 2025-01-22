@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.jack {
+	/* border: 2px solid black; */
+	text-align: left;
+}
+
+.doc {
+	transform: scale(1.1);
+}
+
