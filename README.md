@@ -14,7 +14,7 @@ Concepts covered in this project are :
 - Basics of database schema design
 - Role of authentication in web applications
 
-# Login.jsx:
+### Login.jsx:
 
 This React component renders a login form with fields for an email address and password.
 The password input has a visibility toggle feature using a state variable passwordVisibility controlled by the toggleVisibility function.
@@ -22,13 +22,13 @@ An eye icon is used to toggle the password visibility, which is implemented by c
 The form also includes a "Remember Me" checkbox and a submit button.
 There’s a link for "Forgot password?" and another for starting a free trial if the user isn’t registered.
 
-# Index.css:
+### Index.css:
 
 Custom CSS classes jack and doc are defined.
 The jack class centers text to the left but is currently not actively used to style any elements beyond its definition.
 The doc class slightly scales up a checkbox input element using transform: scale(1.1).
 
-# Main.jsx:
+### Main.jsx:
 
 The main entry point for the React app where it renders the App component inside a StrictMode wrapper for development.
 It uses BrowserRouter from react-router-dom to handle routing within the app, ensuring the navigation and route management are set up for the application.
