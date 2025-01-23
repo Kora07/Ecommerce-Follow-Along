@@ -32,3 +32,18 @@ The doc class slightly scales up a checkbox input element using transform: scale
 
 The main entry point for the React app where it renders the App component inside a StrictMode wrapper for development.
 It uses BrowserRouter from react-router-dom to handle routing within the app, ensuring the navigation and route management are set up for the application.
+
+## Created a file structure in the Backend folder, and connected a MongoDB server to the project.
+
+### .env 
+
+Contains database link and port number.
+
+### database.js 
+
+Connects the index.js file to MongoDB.
+
+### ErrorHandler.js
+
+Handles errors that occur connected to the server.
+
