@@ -1,5 +1,6 @@
 const {Router} = require("express");
-const userModel = require("./Model/userModel")
+const userModel = require("../Model/userModel")
+const {upload} = require("../../multer")
 
 const router = Router();
 
@@ -9,18 +10,20 @@ router.post("/create-user", upload.single("file"), async(request, response) => {
     if (userEmail) {
         return next(new ErrorHandler("User already exists", 400))
     }
+
+    const fileName = request.file.fileName;
+    const fileUrl = request.join(fileName);
+
+    brcypt, hash(password, 10, async (error, hash) => {
+        await userModel.create ({
+            name: name,
+            email: email,
+            password: hash,
+            avatar: fileUrl,
+        })
+        console.log(hash)
+    })
+
 });
-
-const filename = req.file.filename ;
-const fileUrl = path.join(filename);
-
-const user={
-    name:name,
-    email:email,
-    password:password,
-    avatar: fileUrl,
-};
-
-console.log(user);
 
 module.exports = router;
