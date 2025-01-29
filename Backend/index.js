@@ -19,8 +19,6 @@ app.listen(port, async() => {
     }
 })
 
-app.get("/", (request, response) => {
-    response.send("Nah, I'd win");
-})
+app.use(express.json());
 
-app.use("/register", userRouter);
+app.use("/auth", userRouter);

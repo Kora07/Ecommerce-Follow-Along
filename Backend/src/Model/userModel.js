@@ -1,64 +1,68 @@
-const {model, Schema} = require("mongoose");
+const mongoose = require('mongoose'); 
 
-const userSchema = new Schema({
-    name: {
+const userSchema = new mongoose.Schema({
+    name:{
         type: String,
-        required: [true, "Please enter your name"],
-    },
-    email: {
+        required: [true, "Please enter your name!"],
+      },
+      email:{
         type: String,
-        required: [true, "Please enter your email"],
-    },
-    password: {
+        required: [true, "Please enter your email!"],
+      },
+      password:{
         type: String,
         required: [true, "Please enter your password"],
-        minLength: [4, "Password should be greater than 4 characters"],
-        select: false,
-    },
-    phoneNumber: {
+        minLength: [4, "Password should be greater than 4 characters"]
+        
+      },
+      phoneNumber:{
         type: Number,
-    },
-    addresses:[{
-        country: {
+      },
+      addresses:[
+        {
+          country: {
             type: String,
-        },
-        city:{
+          },
+          city:{
             type: String,
-        },
-        address1:{
+          },
+          address1:{
             type: String,
-        },
-        address2:{
+          },
+          address2:{
             type: String,
-        },
-        zipCode:{
+          },
+          zipCode:{
             type: Number,
-        },
-        addressType:{
+          },
+          addressType:{
             type: String,
-        },
-        }],
-    role:{
+          },
+        }
+      ],
+      role:{
         type: String,
         default: "user",
-    },
-    avatar:{
+      },
+      avatar:{
         public_id: {
-            type: String,
-            required: true,
+          type: String,
+          required: true,
         },
         url: {
           type: String,
           required: true,
         },
-    },
-    createdAt:{
-        type: Date,
-        default: Date.now(),
-    },
-    resetPasswordToken: String,
-    resetPasswordTime: Date,
-})
+     },
+     createdAt:{
+      type: Date,
+      default: Date.now(),
+     },
+     resetPasswordToken: String,
+     resetPasswordTime: Date,
 
-const userModel = model("user", userSchema);
-model.exports = userModel;
+});
+
+const userModel= mongoose.model('User',userSchema);
+
+module.exports = userModel;
