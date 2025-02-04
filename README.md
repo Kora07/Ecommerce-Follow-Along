@@ -47,3 +47,8 @@ Connects the index.js file to MongoDB.
 
 Handles errors that occur connected to the server.
 
+---
+
+### Milestone 9:
+Created a form for products that takes multiple product images as input.
+
