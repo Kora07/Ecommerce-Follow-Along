@@ -14,7 +14,7 @@ const secret = process.env.secret;
 
 const userRouter = Router();
 
-userRouter.post("/create-user",upload.single("file"), async(req,res,next)=>{
+userRouter.post("/create-user", upload.single("file"), async(req,res,next)=>{
     const {name, email, password} = req.body;
     const userEmail = await userModel.findOne({email:email});
     if (userEmail) {
@@ -26,9 +26,9 @@ userRouter.post("/create-user",upload.single("file"), async(req,res,next)=>{
 
     await bcrypt.hash(password, 10, async (err, hash)=>{
         await userModel.create({
-                name:name,
-                email:email,
-                password:hash,
+                name: name,
+                email: email,
+                password: hash,
                 avatar: fileUrl,
 
         })
