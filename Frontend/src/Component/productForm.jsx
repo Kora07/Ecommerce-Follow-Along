@@ -1,0 +1,106 @@
+import React, { useState } from "react";
+import axios from "axios";
+import "./product.css"
+
+export default function ProductForm() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [price, setPrice] = useState("");
+  const [description, setDescription] = useState("");
+  const [tag, setTag] = useState("");
+  const [category, setCategory] = useState("");
+  const [stock, setStock] = useState("");
+  const [image, setImage] = useState([]);
+  const [preview, setPreview] = useState([]);
+
+  const handleImage = (e) => {
+    const file = Array.from(e.target.files);
+    setImage((prev) => [...prev, ...file]);
+
+    const imgPreviews = file.map((file) => URL.createObjectURL(file));
+    setPreview((prev) => [...prev, ...imgPreviews]);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("price", price);
+    formData.append("description", description);
+    formData.append("tag", tag);
+    formData.append("category", category);
+    formData.append("stock", stock);
+
+    image.forEach((img) => {
+      formData.append("image", img);
+    });
+
+    try {
+      const response = await axios.post("http://localhost:3000/create-product", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      if (response.status === 200) {
+        alert("Product Added Successfully");
+        setName("");
+        setEmail("");
+        setPrice("");
+        setDescription("");
+        setTag("");
+        setCategory("");
+        setStock("");
+        setImage([]);
+        setPreview([]);
+      }
+    } catch (error) {
+      console.error("Error submitting product form:", error);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label htmlFor="name">Name</label>
+        <input type="text" id="name" value={name} onChange={(e) => setName(e.target.value)} />
+      </div>
+      <div>
+        <label htmlFor="email">Email</label>
+        <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+      </div>
+      <div>
+        <label htmlFor="price">Price</label>
+        <input type="number" id="price" value={price} onChange={(e) => setPrice(e.target.value)} />
+      </div>
+      <div>
+        <label htmlFor="description">Description</label>
+        <textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} />
+      </div>
+      <div>
+        <label htmlFor="tag">Tag</label>
+        <input type="text" id="tag" value={tag} onChange={(e) => setTag(e.target.value)} />
+      </div>
+      <div>
+        <label htmlFor="category">Category</label>
+        <input type="text" id="category" value={category} onChange={(e) => setCategory(e.target.value)} />
+      </div>
+      <div>
+        <label htmlFor="stock">Stock</label>
+        <input type="number" id="stock" value={stock} onChange={(e) => setStock(e.target.value)} />
+      </div>
+      <div>
+        <label htmlFor="image">Image</label>
+        <input type="file" id="image" multiple onChange={handleImage} />
+        <div>
+          {preview.map((img, index) => (
+            <img key={index} src={img} alt="preview" style={{ width: "100px", height: "100px", margin: "10px" }} />
+          ))}
+        </div>
+      </div>
+      <div>
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+  );
+}
