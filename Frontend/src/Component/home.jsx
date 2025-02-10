@@ -1,32 +1,43 @@
-import React from 'react'
-import "../index.css"
+import React, { useEffect, useState } from "react";
+import "../index.css";
 
-function home() {
+function Home() {
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        fetch("http://localhost:3000/product/get-products")
+        .then((res) => {
+            if (!res.ok) {
+            throw new Error(`HTTP error! status: ${res.status}`);
+            }
+            return res.json();
+        })
+        .then((data) => {
+            setProducts(data.products);
+            setLoading(false);
+        })
+        .catch((err) => {
+            console.error("❌ Error fetching products:", err);
+            setError(err.message);
+            setLoading(false);
+        });
+    }, []);
+
+    if (loading) return <p>Loading products...</p>;
+    if (error) return <p>Error: {error}</p>;
+
     return (
-        <>
-            {/* <div className="container">
-                <div className="leftSide">
-                    <h2> HELLO THERE </h2>
-                </div>
-                <div className="rightSide">
-                    Nah
-                </div>
-            </div> */}
-
-            <div className="buttoners">
-                <a href="/login">
-                    <button className="px-6 py-2 text-white bg-blue-600 rounded-2xl shadow-md hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transition duration-300">
-                        Log In
-                    </button>
-                </a>
-                <a href="/sign-up">
-                    <button className="px-6 py-2 text-white bg-blue-600 rounded-2xl shadow-md hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transition duration-300">
-                        Sign Up
-                    </button>
-                </a>
-            </div>
-        </>
-    )
+        <div>
+        <h1>Product List</h1>
+        <ul>
+            {products.map((product, index) => (
+            <li key={index}>{product.name}</li>
+            ))}
+        </ul>
+        </div>
+    );
 }
 
-export default home;
+export default Home;
