@@ -18,46 +18,41 @@ export default function ProductForm() {
     setImage((prev) => [...prev, ...file]);
 
     const imgPreviews = file.map((file) => URL.createObjectURL(file));
-    setPreview((prev) => [...prev, ...imgPreviews]);
+    setPreview(imgPreviews);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('price', price);
+    formData.append('description', description);
+    formData.append('category', category);
+    formData.append('stock', stock);
+    formData.append('tag', tag);
 
-    formData.append("name", name);
-    formData.append("email", email);
-    formData.append("price", price);
-    formData.append("description", description);
-    formData.append("tag", tag);
-    formData.append("category", category);
-    formData.append("stock", stock);
-
-    image.forEach((img) => {
-      formData.append("image", img);
+    image.forEach((file) => {
+        formData.append('image', file);
     });
 
-    try {
-      const response = await axios.post("http://localhost:3000/create-product", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+    console.log(formData);
+    alert('Product added successfully');
 
-      if (response.status === 200) {
-        alert("Product Added Successfully");
-        setName("");
-        setEmail("");
-        setPrice("");
-        setDescription("");
-        setTag("");
-        setCategory("");
-        setStock("");
+    const res = await axios.post('http://localhost:5173/productForm', formData);
+
+    if (res.status === 200) {
+        setName('');
+        setEmail('');
+        setPrice('');
+        setDescription('');
+        setCategory('');
+        setStock('');
+        setTag('');
         setImage([]);
         setPreview([]);
-      }
-    } catch (error) {
-      console.error("Error submitting product form:", error);
     }
-  };
+};
 
   return (
     <form onSubmit={handleSubmit}>

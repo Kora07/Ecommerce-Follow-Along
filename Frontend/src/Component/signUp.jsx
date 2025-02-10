@@ -11,39 +11,32 @@ function SignUp() {
   	const [name, setName] = useState('');
   	const [avatar, setAvatar] = useState(null);
 
-	const handleFileSubmit = (e) => {
+	  const handleFileSubmit = (e) => {
 		const file = e.target.files[0];
-
-		if (file) {
-			const filePath = URL.createObjectURL(file);
+	
+		if (file){
+			const filePath= URL.createObjectURL(file);
 			console.log(filePath);
 			setAvatar(file);
 		}
+	
 	}
-
-	const handleSubmit = async (e) => {
-		e.preventDefault()
-		const formData = new FormData();
-
-		formData.append("name", name);
-		formData.append("email", email);
-		formData.append("password", password);
-		formData.append("avatar", avatar);
-
-		const config = {
-			headers: {
-				"Content-Type": "multiport-form-data"
-			}
+	
+		const handleSubmit=async (e)=>{
+			e.preventDefault()
+			const formData = new FormData();
+			formData.append('name', name);
+			formData.append('email', email);
+			formData.append('password', password);
+			formData.append('avatar', avatar);
+	
+			axios.post('http://localhost:3000/auth/create-user', formData).then((res)=>{
+				console.log(res);
+			}).catch((err)=>{
+				console.log(err);
+			})
+	
 		}
-
-		axios.post("http://localhost:3000/create-user", formData, config)
-		.then((response) => {
-			console.log(response.data);
-		})
-		.catch((error) => {
-			console.log(error);
-		});
-	}
 
     const [passwordVisibility, setPasswordVisibiity] = useState(true);
     const toggleVisibility = () => {
@@ -59,7 +52,7 @@ function SignUp() {
 
     return (
         <>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-sm">
               <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
@@ -75,11 +68,11 @@ function SignUp() {
                     </label>
                     <div className="mt-2">
                         <input
-                        id="email"
-                        name="email"
-                        type="email"
+                        id="name"
+                        name="name"
+                        type="name"
                         required
-                        autoComplete="email"
+						onChange={(e) => setName(e.target.value)}
                         className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                         />
                     </div>
@@ -94,6 +87,7 @@ function SignUp() {
                       name="email"
                       type="email"
                       required
+					  onChange={(e) => setEmail(e.target.value)}
                       autoComplete="email"
                       className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                     />
@@ -112,6 +106,7 @@ function SignUp() {
                       name="password"
                       type={passwordVisibility ? "password" : "text"}
                       required
+					  onChange={(e) => setPassword(e.target.value)}
                       autoComplete="current-password"
                       className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                     >
@@ -174,6 +169,7 @@ function SignUp() {
                 <div>
                   <button
                     type="submit"
+					onClick={handleSubmit}
                     className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
                   >
                     Sign up

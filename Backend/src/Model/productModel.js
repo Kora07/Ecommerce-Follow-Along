@@ -1,47 +1,48 @@
-const [model, Schema] = require("mongoose");
+const {model,Schema} = require('mongoose')
 
-const productSchema = new Schema({
-    name: {
+const productSchema = new Schema(
+    {name: {
         type: String,
-        required: [true, "Please enter a product name!"]
+        required: [true, "Please provide the product name"],
     },
     description: {
         type: String,
-        required: [true, "Please enter a product description!"]
+        required: [true, "Please provide the product description"],
     },
     category: {
         type: String,
-        required: [true, "Please enter a product category!"]
+        required: [true, "Please provide the product category"],
+    },
+    tags: {
+        type: [String], // Array of tags
+        default: [],
     },
     price: {
         type: Number,
-        required: [true, "Please enter a product price!"]
-    },
-    tags: {
-        type: [String],
-        required: [true, "Please enter at least one product tag!"]
-    },
-    images: {
-        type: [String],
-        required: [true, "Please upload a product image!"]
+        required: [true, "Please provide the product price"],
     },
     stock: {
         type: Number,
-        required: [true, "Please enter a product quantity!"]
+        required: [true, "Please provide the product stock"],
     },
     email: {
         type: String,
-        required: [true, "Please enter the email of the product owner!"]
+        required: [true, "Please provide an email"],
+        match: [/.+@.+\..+/, "Please provide a valid email address"],
+    },
+    images: {
+        type: [String], // Array of image URLs (base64 or hosted links)
+        required: [true, "Please upload product images"],
     },
     createdAt: {
         type: Date,
-        default: Date.now()
+        default: Date.now, // Automatically set the creation date
     },
 },
 {
     timestamps: true,
 })
 
-const productModel = model("Product", productSchema);
+const productModel = model('Product',productSchema)
 
-module.exports = productModel;
+module.exports=productModel
