@@ -1,5 +1,7 @@
 const express=require('express');
 const app=express();
+const cors = require("cors");
+
 const connectDB=require('./src/Database/database');
 const userRouter=require('./src/Controllers/user');
 const productRouter=require('./src/Controllers/products')
@@ -20,11 +22,20 @@ app.listen(3000,async ()=>{
     }
 })
 
+app.use(cors());
+
+// OR enable CORS for specific origin (your frontend URL)
+app.use(cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+}));
+
 app.use(express.json());
 
- app.use('/auth',userRouter)
+app.use('/auth',userRouter)
 
- app.use('/product',productRouter)
+app.use('/product',productRouter)
 
  
 

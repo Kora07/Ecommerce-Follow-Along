@@ -17,7 +17,7 @@ productRouter.get('/get-products',async (req,res)=>{
     }
 })
 
-productRouter.post('/post-product',productUpload.array('files'),async (req,res)=>{
+productRouter.post('/post-product',productUpload.array('images', 10),async (req,res)=>{
     const {name,email,description,category,stock,tags,price} = req.body;
     const images=req.files.map(file=>file.path);
     try{
