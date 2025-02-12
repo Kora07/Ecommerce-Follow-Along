@@ -47,3 +47,31 @@ Connects the index.js file to MongoDB.
 
 Handles errors that occur connected to the server.
 
+---
+
+### Milestone 5
+
+Created the sign up page for users to register by filling out their details. 
+Created a validation system that ensures emails and passwords are properly validated before submission.
+
+The Sign-Up page is where users can enter their details to create an account. 
+This page allows users to provide their information, which will be sent to the server for processing.
+
+Form Validation ensures that the information users provide is correct and in the right format.
+
+---
+
+### Milestone 6
+
+Created a backend endpoint for the Signup page to store all user data securely, by encrypting the password and storing the user's data in the database.
+
+--- 
+
+### Milestone 7
+
+Created system for validating user credentials, and verifying the encrypted password stored in the database.
+
+---
+
+
+
