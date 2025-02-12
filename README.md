@@ -87,3 +87,12 @@ Created a form for products that takes multiple product images as input.
 ### Milestone 10:
 Built a POST endpoint to receive product data.
 Validated and saved the product details to MongoDB.
+
+---
+
+### Milestone 11:
+Created an endpoint that will send data from extract and send data from MongoDB, and a function to display all data dynamically passed to product card component.
+
+---
+
+
