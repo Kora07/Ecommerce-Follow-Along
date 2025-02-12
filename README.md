@@ -47,3 +47,19 @@ Connects the index.js file to MongoDB.
 
 Handles errors that occur connected to the server.
 
+---
+
+### Milestone Twelve
+
+##### Product Form and Image Upload
+
+This application includes a form for submitting product details, including an image upload feature. The form allows users to add a product with the following fields:
+
+1. Name: The name of the product.
+2. Email: The email of the product owner (or related contact).
+3. Price: The price of the product.
+4. Description: A description of the product.
+5. Category: The product's category.
+6. Stock: The quantity of the product available.
+7. Tag: A label or keyword to describe the product.
+8. Image: One or more images to showcase the product.
