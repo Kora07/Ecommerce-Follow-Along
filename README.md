@@ -95,7 +95,7 @@ Created an endpoint that will send data from extract and send data from MongoDB,
 
 ---
 
-### Milestone Twelve
+### Milestone 12
 
 ##### Product Form and Image Upload
 
