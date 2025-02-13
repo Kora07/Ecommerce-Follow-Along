@@ -46,4 +46,59 @@ productRouter.post('/post-product',productUpload.array('images', 10),async (req,
 
 })
 
+productRouter.put("/edit-product/:id", productUpload.array("images", 10), async (request, response) => {
+    try {
+        const id = request.params;
+        const existingProduct = await productModel.findOne({ _id: id});
+
+        if (!existingProduct){
+            return response.status(404).json({message: "Product not found"});
+        }
+
+        const {name, description, category, tags, price, stock, email} = request.body;
+
+        const uploadImage = existingProduct.images;
+        if (request.files && request.files.length > 0) {
+            uploadImage = request.files.map((img) => {
+                return `/product/${path.basename(img.path)}`
+            })
+        }
+        
+        existingProduct.name = name;
+        existingProduct.description = description;
+        existingProduct.category = category;
+        existingProduct.tags = tags;
+        existingProduct.price = price;
+        existingProduct.stock = stock;
+        existingProduct.email = email;
+        existingProduct.images = uploadImage;
+
+        await existingProduct.save()
+
+        response.status(200).json({product: existingProduct});
+
+    }
+
+    catch (error) {
+        console.log(error)
+    }
+
+})
+
+productRouter.delete("/delete-product/:id", async (request, response) => {
+    try {
+        const { id } = request.params
+        const existingProduct = await productModel.findMyId(id);
+
+        if (!existingProduct) {
+            return response.status(404).json({ message: "Product not found" });
+        }
+
+        await existingProduct.deleteOne(id)
+    }
+    catch (error) {
+        console.log(error)
+    }
+})
+
 module.exports=productRouter;
