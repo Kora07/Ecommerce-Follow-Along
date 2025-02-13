@@ -1,9 +1,10 @@
 const x = require('mongoose');
+
 require('dotenv').config({
     path:'../Config/.env'
 });
 
-const connectDB=async(url)=>{
+const connectDB = async(url)=>{
     try {
         await x.connect(url);
         console.log(`MongoDB connected successfully`);
@@ -12,4 +13,4 @@ const connectDB=async(url)=>{
     }
 }
 
-module.exports=connectDB;
+module.exports = connectDB;
