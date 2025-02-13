@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./product.css"
 
@@ -12,6 +12,10 @@ export default function ProductForm() {
   const [stock, setStock] = useState("");
   const [image, setImage] = useState([]);
   const [preview, setPreview] = useState([]);
+
+  useEffect(() => {
+      
+  })
 
   const handleImage = (e) => {
     const file = Array.from(e.target.files);
