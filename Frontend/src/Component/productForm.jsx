@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useNavigate, useParams } from "react";
 import axios from "axios";
 import "./product.css"
 
 export default function ProductForm() {
+  const { id } = useParams();
+  const navigate = useNavigate()
+  const isEdit = Boolean(id);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [price, setPrice] = useState("");
@@ -14,8 +17,30 @@ export default function ProductForm() {
   const [preview, setPreview] = useState([]);
 
   useEffect(() => {
-      
-  })
+    if (isEdit) {
+        axios
+          // Route link to be changed 
+            .get(`http://localhost:3000/product/${id}`)
+            .then((response) => {
+                const p = response.data.product;
+                setName(p.name);
+                setDescription(p.description);
+                setCategory(p.category);
+                setTag(p.tags || "");
+                setPrice(p.price);
+                setStock(p.stock);
+                setEmail(p.email);
+                if (p.images && p.images.length > 0) {
+                    setPreview(
+                        p.images.map((imgPath) => `http://localhost:3000/${imgPath}`)
+                    );
+                }
+            })
+            .catch((err) => {
+                console.error("Error fetching product:", err);
+            });
+    }
+}, [id, isEdit]);
 
   const handleImage = (e) => {
     const file = Array.from(e.target.files);
