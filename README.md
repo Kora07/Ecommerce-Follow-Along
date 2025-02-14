@@ -109,3 +109,17 @@ This application includes a form for submitting product details, including an im
 6. Stock: The quantity of the product available.
 7. Tag: A label or keyword to describe the product.
 8. Image: One or more images to showcase the product.
+
+---
+
+### Milestone 13
+
+Created an endpoint that updates the existing data in MongoDB.
+
+---
+
+### Milestone 14
+
+Created an endpoint that deletes data from MongoDB.
+
+---
