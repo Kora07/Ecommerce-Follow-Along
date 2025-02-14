@@ -1,16 +1,28 @@
-import React,{useEffect,useState} from 'react';
-import PropTypes from 'prop-types';
-
-
+import React, { useEffect, useState, useNavigate } from 'react'
+import PropTypes from 'prop-types'
+import axios from 'axios'
 
 export default function ProductCard({product}) {
-
-    useEffect(()=>{
-        document.body.style.backgroundColor='azure'
-      })
-    
-      
+        
     const [imgIndex,setImgIndex] = useState(0);
+    const navigate = useNavigate();
+
+    const handleEdit = (id) => {
+        navigate(`/productForm/${id}`);
+    }
+
+    const handleDelete = async (id) => {
+        try {
+            const response = await axios.delete(`http://localhost:3000/product/delete-product/${id}`);
+
+            if (response.status === 200) {
+                console.log('Product deleted successfully');
+            }
+        }
+        catch (error) {
+            console.error('Error deleting product:', error);
+        }
+    }
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -23,7 +35,7 @@ export default function ProductCard({product}) {
         return () => clearInterval(interval); // Cleanup when unmounting
     }, [imgIndex]);
 
-    
+
 
     return (
         <div>
@@ -39,7 +51,9 @@ export default function ProductCard({product}) {
                 <h2 className='text-black'>
                     ${product.price}
                 </h2>
-                <button>Buy Now</button>
+                <button> Buy Now </button>
+                <button onClick={(id) => {handleDelete(id)}}> Delete </button>
+                <button onClick={(id) => {handleEdit(id)}}> Edit </button>
             </div>
             
         </div>
@@ -54,3 +68,4 @@ ProductCard.propTypes = {
         image: PropTypes.array.isRequired,
     }).isRequired,
 };
+

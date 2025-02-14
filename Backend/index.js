@@ -1,26 +1,42 @@
-const express = require("express");
-const app = express();
-const connectDatabase = require("./src/Database/database")
-const userRouter = require("./src/Controllers/user")
+const express=require('express');
+const app=express();
+const cors = require("cors");
 
-require("dotenv").config({
-    path: "./src/Config/.env"
+const connectDB=require('./src/Database/database');
+const userRouter=require('./src/Controllers/user');
+const productRouter=require('./src/Controllers/products')
+
+require('dotenv').config({
+    path:'./src/Config/.env'
 });
-const port = process.env.port;
-const url = process.env.databaseURL;
 
-app.listen(port, async() => {
-    try {
-        await connectDatabase(url);
-        console.log(`Server is running on port ${port}`);
-    }
-    catch(error) {
-        console.log(error)
+const port=process.env.port;
+const url=process.env.databaseURL;
+
+app.listen(3000,async ()=>{
+    console.log(`Server is running on port ${port}`);
+    try{
+        await connectDB(url);
+    }catch(error){
+        console.log(error);
     }
 })
 
-app.get("/", (request, response) => {
-    response.send("Nah, I'd win");
-})
+app.use(cors());
 
-app.use("/register", userRouter);
+// OR enable CORS for specific origin (your frontend URL)
+app.use(cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+}));
+
+app.use(express.json());
+
+app.use('/auth',userRouter)
+
+app.use('/product',productRouter)
+
+ 
+
+ 

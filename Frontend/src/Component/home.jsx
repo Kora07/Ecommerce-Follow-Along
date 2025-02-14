@@ -1,32 +1,113 @@
-import React from 'react'
-import "../index.css"
+import React,{useState, useEffect} from 'react';
+import ProductCard from './ProductCard';
+import axios from 'axios'
 
-function home() {
+// const productDetails=[
+//     {
+//         image:["https://cdn.pixabay.com/photo/2016/03/08/20/03/flag-1244648_1280.jpg","https://cdn.pixabay.com/photo/2022/01/03/19/39/flag-6913477_1280.jpg","https://cdn.pixabay.com/photo/2017/07/02/00/43/bundestag-2463236_1280.jpg",'https://picsum.photos/150'],
+//         name:'Product 1',
+//         price:100,
+//         description:'This is a product'
+//     },
+//     {
+//         image:["https://cdn.pixabay.com/photo/2016/03/08/20/03/flag-1244648_1280.jpg","https://cdn.pixabay.com/photo/2022/01/03/19/39/flag-6913477_1280.jpg","https://cdn.pixabay.com/photo/2017/07/02/00/43/bundestag-2463236_1280.jpg",'https://picsum.photos/150'],
+//         name:'Product 2',
+//         price:150,
+//         description:'This is a product'
+//     },
+//     {
+//         image:["https://cdn.pixabay.com/photo/2016/03/08/20/03/flag-1244648_1280.jpg","https://cdn.pixabay.com/photo/2022/01/03/19/39/flag-6913477_1280.jpg","https://cdn.pixabay.com/photo/2017/07/02/00/43/bundestag-2463236_1280.jpg",'https://picsum.photos/150'],
+//         name:'Product 3',
+//         price:300,
+//         description:'This is a product'
+//     },
+//     {
+//         image:["https://cdn.pixabay.com/photo/2016/03/08/20/03/flag-1244648_1280.jpg","https://cdn.pixabay.com/photo/2022/01/03/19/39/flag-6913477_1280.jpg","https://cdn.pixabay.com/photo/2017/07/02/00/43/bundestag-2463236_1280.jpg",'https://picsum.photos/150'],
+//         name:'Product 4',
+//         price:150,
+//         description:'This is a product'
+//     },
+//     {
+//         image:["https://cdn.pixabay.com/photo/2016/03/08/20/03/flag-1244648_1280.jpg","https://cdn.pixabay.com/photo/2022/01/03/19/39/flag-6913477_1280.jpg","https://cdn.pixabay.com/photo/2017/07/02/00/43/bundestag-2463236_1280.jpg",'https://picsum.photos/150'],
+//         name:'Product 5',
+//         price:300,
+//         description:'This is a product'
+//     },
+//     {
+//         image:["https://cdn.pixabay.com/photo/2016/03/08/20/03/flag-1244648_1280.jpg","https://cdn.pixabay.com/photo/2022/01/03/19/39/flag-6913477_1280.jpg","https://cdn.pixabay.com/photo/2017/07/02/00/43/bundestag-2463236_1280.jpg",'https://picsum.photos/150'],
+//         name:'Product 1',
+//         price:100,
+//         description:'This is a product'
+//     },
+//     {
+//         image:["https://cdn.pixabay.com/photo/2016/03/08/20/03/flag-1244648_1280.jpg","https://cdn.pixabay.com/photo/2022/01/03/19/39/flag-6913477_1280.jpg","https://cdn.pixabay.com/photo/2017/07/02/00/43/bundestag-2463236_1280.jpg",'https://picsum.photos/150'],
+//         name:'Product 2',
+//         price:150,
+//         description:'This is a product'
+//     },
+//     {
+//         image:["https://cdn.pixabay.com/photo/2016/03/08/20/03/flag-1244648_1280.jpg","https://cdn.pixabay.com/photo/2022/01/03/19/39/flag-6913477_1280.jpg","https://cdn.pixabay.com/photo/2017/07/02/00/43/bundestag-2463236_1280.jpg",'https://picsum.photos/150'],
+//         name:'Product 3',
+//         price:300,
+//         description:'This is a product'
+//     },
+//     {
+//         image:["https://cdn.pixabay.com/photo/2016/03/08/20/03/flag-1244648_1280.jpg","https://cdn.pixabay.com/photo/2022/01/03/19/39/flag-6913477_1280.jpg","https://cdn.pixabay.com/photo/2017/07/02/00/43/bundestag-2463236_1280.jpg",'https://picsum.photos/150'],
+//         name:'Product 4',
+//         price:150,
+//         description:'This is a product'
+//     },
+    // {
+    //     image:["https://cdn.pixabay.com/photo/2016/03/08/20/03/flag-1244648_1280.jpg","https://cdn.pixabay.com/photo/2022/01/03/19/39/flag-6913477_1280.jpg","https://cdn.pixabay.com/photo/2017/07/02/00/43/bundestag-2463236_1280.jpg",'https://picsum.photos/150'],
+    //     name:'Product 5',
+    //     price:300,
+    //     description:'This is a product'
+    // }
+    
+// ]
+
+
+
+
+export default function Homepage() {
+    const [productDetails,setProductDetails]=useState([])
+    const [loading,setLoading]=useState(true);
+    const [error,setError]=useState("")
+
+    useEffect(()=>{
+        async ()=>{
+            await axios.fetch("http://localhost:3000/product/get-products")
+        .then((res)=>{
+            if (!res.ok){
+                throw new Error(`HTTP Error! status:${res.status}`)
+            }
+            return res.json()
+        }).then((data)=>{
+            setProductDetails(data.products);
+            console.log(productDetails);
+            setLoading(false);
+            
+        }).catch((err)=>{
+            console.error(err)
+            setError(err)
+        })
+        }
+        
+    })
+
     return (
         <>
-            {/* <div className="container">
-                <div className="leftSide">
-                    <h2> HELLO THERE </h2>
-                </div>
-                <div className="rightSide">
-                    Nah
-                </div>
-            </div> */}
+        
+        <div className='grid grid-cols-5 gap-4  align-items-center'>
+        {
+            productDetails.map((product,index) => {
+                return <ProductCard key={index} product={product} />
+            })
+        }
+        </div>
 
-            <div className="buttoners">
-                <a href="/login">
-                    <button className="px-6 py-2 text-white bg-blue-600 rounded-2xl shadow-md hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transition duration-300">
-                        Log In
-                    </button>
-                </a>
-                <a href="/sign-up">
-                    <button className="px-6 py-2 text-white bg-blue-600 rounded-2xl shadow-md hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 transition duration-300">
-                        Sign Up
-                    </button>
-                </a>
-            </div>
+        {/* Damn That's Crazy */}
+       
         </>
     )
 }
-
-export default home;

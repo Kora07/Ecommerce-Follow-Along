@@ -75,3 +75,59 @@ Created a backend endpoint for the Signup page to store all user data securely, 
 
 --- 
 
+### Milestone 7
+
+Created system for validating user credentials, and verifying the encrypted password stored in the database.
+
+---
+
+### Milestone 8
+
+Designed and created a card component to display products effectively.
+
+---
+
+### Milestone 9:
+Created a form for products that takes multiple product images as input.
+
+---
+
+### Milestone 10:
+Built a POST endpoint to receive product data.
+Validated and saved the product details to MongoDB.
+
+---
+
+### Milestone 11:
+Created an endpoint that will send data from extract and send data from MongoDB, and a function to display all data dynamically passed to product card component.
+
+---
+
+### Milestone 12
+
+##### Product Form and Image Upload
+
+This application includes a form for submitting product details, including an image upload feature. The form allows users to add a product with the following fields:
+
+1. Name: The name of the product.
+2. Email: The email of the product owner (or related contact).
+3. Price: The price of the product.
+4. Description: A description of the product.
+5. Category: The product's category.
+6. Stock: The quantity of the product available.
+7. Tag: A label or keyword to describe the product.
+8. Image: One or more images to showcase the product.
+
+---
+
+### Milestone 13
+
+Created an endpoint that updates the existing data in MongoDB.
+
+---
+
+### Milestone 14
+
+Created an endpoint that deletes data from MongoDB.
+
+---
