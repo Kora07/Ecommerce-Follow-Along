@@ -131,3 +131,11 @@ Created an endpoint that updates the existing data in MongoDB.
 Created an endpoint that deletes data from MongoDB.
 
 ---
+
+### Milestone 15
+Created a Navbar component that is used in all pages and contains links to the following:
+
+- Home
+- Products Page
+- Product Form to add products
+- Cart
