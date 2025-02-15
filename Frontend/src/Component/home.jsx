@@ -1,5 +1,5 @@
 import React,{useState, useEffect} from 'react';
-import ProductCard from './ProductCard';
+import ProductCard from './productCard';
 import axios from 'axios'
 
 // const productDetails=[
@@ -106,7 +106,7 @@ export default function Homepage() {
         }
         </div>
 
-        {/* Damn That's Crazy */}
+        Homepage
        
         </>
     )
