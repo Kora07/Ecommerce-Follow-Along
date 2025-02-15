@@ -57,6 +57,36 @@ Handles errors that occur connected to the server.
 
 ---
 
+### Milestone 1
+Setup project and created a Github Repository for version control.
+
+---
+
+### Milestone 2
+- Created a structured folder hierarchy for the project.
+- Set up a React app for the frontend and a Node.js server for the backend.
+- Configured Tailwind CSS for streamlined styling.
+- Built a functional and styled Login Page for the frontend.
+
+---
+
+### Milestone 3
+
+- Set up dedicated folders for organizing backend code effectively.
+- Initialized and configured a Node.js server to handle API requests.
+- Connected application to MongoDB to store and manage data.
+- Implemented basic error handling to ensure your server runs smoothly.
+
+---
+
+### Milestone 4
+
+- Created a User Model.
+- Created a User Controller.
+- Enabled and configured Multer.
+
+---
+
 ### Milestone 5
 
 Created the sign up page for users to register by filling out their details. 
@@ -131,3 +161,11 @@ Created an endpoint that updates the existing data in MongoDB.
 Created an endpoint that deletes data from MongoDB.
 
 ---
+
+### Milestone 15
+Created a Navbar component that is used in all pages and contains links to the following:
+
+- Home
+- Products Page
+- Product Form to add products
+- Cart

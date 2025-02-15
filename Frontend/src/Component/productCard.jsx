@@ -1,56 +1,30 @@
-import React,{useEffect,useState} from 'react';
-import PropTypes from 'prop-types';
+import React from "react"
+import "./productCard.css"
 
-
-
-export default function ProductCard({product}) {
-
-    useEffect(()=>{
-        document.body.style.backgroundColor='azure'
-      })
-    
-      
-    const [imgIndex,setImgIndex] = useState(0);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setImgIndex((prev) => {
-                console.log(prev + 1);
-                return (prev + 1)%(product.image.length-1) ;
-            });
-        }, 2000);
-    
-        return () => clearInterval(interval); // Cleanup when unmounting
-    }, [imgIndex]);
-
-    
-
+export default function ProductCard() {
     return (
-        <div>
-            <div className='flex flex-col text-black'>
-                
-                <img src={product.image[imgIndex]} alt="" />
-                <h2 className='text-black'>{product.name}</h2>
-                <h4>
-                    {product.description}
-                </h4>
+        <>
+            <div className="container">
+                <div className="productImage">
+                    <img src="https://picsum.photos/200/300" />
+                </div>
+
+                <div className="title">
+                    Product
+                </div>
+
+                <div className="price">
+                    <h6> $19.99 </h6>
+                </div>
+
+                <div className="description">
+                    Description
+                </div>
+
+                <div className="button">
+                    <button className="buy"> Buy </button>
+                </div>
             </div>
-            <div>
-                <h2 className='text-black'>
-                    ${product.price}
-                </h2>
-                <button>Buy Now</button>
-            </div>
-            
-        </div>
+        </>
     )
 }
-
-ProductCard.propTypes = {
-    product: PropTypes.shape({
-        name: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        description: PropTypes.string.isRequired,
-        image: PropTypes.array.isRequired,
-    }).isRequired,
-};
