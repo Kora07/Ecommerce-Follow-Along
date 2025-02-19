@@ -175,3 +175,9 @@ Created a Navbar component that is used in all pages and contains links to the f
 ### Milestone 16
 - Created a new page to display each product
 - Created quantity and add to card buttons
+
+---
+
+### Milestone 17
+- Edited user schema to store cart products.
+- Created an endpoint to receive product details and store them in the database. 
