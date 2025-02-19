@@ -2,7 +2,10 @@ import React from 'react'
 import { useState } from 'react'
 import {FaMinus, FaPlus} from 'react-icons/fa' 
 import { useEffect } from 'react'
+import axios from 'axios'
 import { useParams } from 'react-router-dom'
+
+
  const Singlecard = () => {
 
     const [product, setProduct] = useState({})

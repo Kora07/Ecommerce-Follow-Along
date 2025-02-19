@@ -64,6 +64,59 @@ productrouter.post("/post-product",productupload.array('files'),async(req, res) 
 
 });
 
+productrouter.post("/cart", async(req, res) => {
+    const {email, id, name, quantity} = req.body;
+
+    try {
+        if (!email || !id || !name || !quantity) {
+            return res.status(400).json({ message: "Missing required fields" });
+        }
+        
+        const findEmail = await userModel.findOne({ email: "email"})
+        if (!findEmail) {
+            return res.status(404).json({ message: "User does not exist" });
+        }
+        if (!mongoose.types.objectId.isValid(id)) {
+            return res.status(400).json({ message: "Invalid product id" });
+        }
+
+        if (quantity > 0 && !quantity) {
+            return res.status(400).json({ message: "Invalid quantity" });
+        }
+
+        const findProduct = await productModel.findById(productId);
+        if (!findProduct) {
+            return res.status(404).json({ message: "Product not found" });
+        }
+
+        const cartProduct = await userModel.cart.findIndex((i) => {
+            return i.productId === productId
+        })
+    }
+    catch (error) {
+        console.log(error);
+    }
+})
+
+productrouter.get("/getcart", async(req, res)=>{
+    try{
+        const email = req.body;
+        if (!email) {
+            return res.status(404).json({message:"user does not exist"});
+        }
+        const user = await userModel.findOne({email:email}).populate({
+            path: 'cart.productId',
+            model:productModel
+        })
+        if(!user){
+            return res.status(404).json({message:"User not found"});
+        }
+    }
+    catch (error){
+        console.log(error);
+    }
+})
+
 productrouter.put('/edit-product/:id',productupload.array('files',10),async(req,res)=>{
 
     try{
