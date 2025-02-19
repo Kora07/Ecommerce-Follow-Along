@@ -1,29 +1,26 @@
-import { useState } from 'react'
-import "./app.css"
+import './App.css'
 import { Route, Routes } from 'react-router-dom'
-import Login from './Component/Login'
-import SignUp from './Component/signUp'
-import Homepage from './Component/home'
-import Product from "./Component/product"
-import ProductForm from './Component/productForm'
-import ProductCard from './Component/sellerProductCard'
-import Navbar from './Component/navbar'
-import Cart from './Component/cart'
+import Login from './Components/Login'
+import { Signup } from './Components/Signup'
+import { Home } from './page/Home'
+import { ProductForm } from './Components/Productform'
+import { Productcardseller } from './Components/productcardforseller'
+import Navbar from "./Components/Navbar";
+import Singlecard from './Components/Singlecard'
+
 
 function App() {
-
-
+ 
 	return (
 		<>
-			<Navbar />
+			<Navbar/>
 			<Routes>
-				<Route path='/' element={<Homepage/>}/>
-				<Route path='/login' element={<Login/>}/>
-				<Route path='/product' element={<Product/>}/>
-				<Route path='/sign-up' element={<SignUp/>}/>
-				<Route path='/productForm' element={<ProductForm/>}/>
-				<Route path='/sellerProductForm' element={<ProductCard/>}/>
-				<Route path='/cart' element={<Cart/>}/>
+				<Route path="/" element={<Home/>}/>
+				<Route path="/Login" element={<Login/>}/>
+				<Route path="/Signup" element={<Signup/>}/>
+				<Route path='/productform' element={<ProductForm/>}/>
+				<Route path='/my-product' element={<Productcardseller/>}/>
+				<Route path= '/product/:id' element={<Singlecard/>}/>
 			</Routes>
 		</>
 	)
