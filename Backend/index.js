@@ -1,42 +1,37 @@
 const express=require('express');
+const connectDB = require('./src/Database/db');
+const userModel = require('./src/Model/userModel');
+const productModel = require('./src/Model/Productmodel');
+const userrouter = require('./src/Controllers/user');
+const productrouter = require('./src/Controllers/products');
 const app=express();
-const cors = require("cors");
-
-const connectDB=require('./src/Database/database');
-const userRouter=require('./src/Controllers/user');
-const productRouter=require('./src/Controllers/products')
-
-require('dotenv').config({
-    path:'./src/Config/.env'
-});
-
-const port=process.env.port;
-const url=process.env.databaseURL;
-
-app.listen(3000,async ()=>{
-    console.log(`Server is running on port ${port}`);
-    try{
-        await connectDB(url);
-    }catch(error){
-        console.log(error);
-    }
-})
-
-app.use(cors());
-
-// OR enable CORS for specific origin (your frontend URL)
-app.use(cors({
-    origin: "http://localhost:5173",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true
-}));
 
 app.use(express.json());
 
-app.use('/auth',userRouter)
+require('dotenv').config({
+    path:'./src/config/.env'
+});
 
-app.use('/product',productRouter)
+const PORT=process.env.port || 5000;
+const url=process.env.db_url;
 
- 
+app.get('/',(req,res)=>{   
+    res.send('Hello World');
+})
 
- 
+app.use('/auth',userrouter);
+
+app.listen(PORT,async()=>{
+
+try{
+   await connectDB(url);
+    console.log(`Server is running on port ${PORT}`);
+}
+catch(err){
+    console.log(err);
+}
+    
+})
+
+app.use('/auth',userrouter);
+app.use('/product',productrouter);

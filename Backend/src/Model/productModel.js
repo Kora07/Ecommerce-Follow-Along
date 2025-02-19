@@ -1,7 +1,7 @@
-const {model,Schema} = require('mongoose')
+const {model, Schema} = require('mongoose');
 
-const productSchema = new Schema(
-    {name: {
+const productSchema = new Schema({
+    name: {
         type: String,
         required: [true, "Please provide the product name"],
     },
@@ -14,7 +14,7 @@ const productSchema = new Schema(
         required: [true, "Please provide the product category"],
     },
     tags: {
-        type: [String], // Array of tags
+        type: [String], 
         default: [],
     },
     price: {
@@ -31,18 +31,20 @@ const productSchema = new Schema(
         match: [/.+@.+\..+/, "Please provide a valid email address"],
     },
     images: {
-        type: [String], // Array of image URLs (base64 or hosted links)
+        type: [String], 
         required: [true, "Please upload product images"],
     },
     createdAt: {
         type: Date,
-        default: Date.now, // Automatically set the creation date
+        default: Date.now, 
     },
 },
 {
     timestamps: true,
-})
+}
 
-const productModel = model('Product',productSchema)
+);
 
-module.exports=productModel
+
+const productModel = model('Product', productSchema);
+module.exports = productModel;
