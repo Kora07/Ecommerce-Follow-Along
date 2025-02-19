@@ -169,3 +169,9 @@ Created a Navbar component that is used in all pages and contains links to the f
 - Products Page
 - Product Form to add products
 - Cart
+
+---
+
+### Milestone 16
+- Created a new page to display each product
+- Created quantity and add to card buttons
