@@ -60,7 +60,7 @@ const userSchema =new mongoose.Schema ({
 		default: Date.now(),
 	},
 	cart: [{
-		productID: {
+		productId: {
 			type: String,
 			unique: true,
 			required: true,
