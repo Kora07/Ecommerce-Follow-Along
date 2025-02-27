@@ -6,6 +6,9 @@ const userrouter = require('./src/Controllers/user');
 const productrouter = require('./src/Controllers/products');
 const app=express();
 
+const cors = require("cors");
+app.use(cors());
+
 app.use(express.json());
 
 require('dotenv').config({

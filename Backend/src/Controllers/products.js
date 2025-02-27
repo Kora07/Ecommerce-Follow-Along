@@ -1,16 +1,18 @@
-const {Router} = require('express');
+const { Router } = require('express');
 const { productupload } = require('../../multer');
 const productModel = require('../Model/Productmodel');
 const productrouter = Router();
-const path=require('path')
+const path = require('path')
 
-productrouter.get("/get-product", async (req, res) => {
+productrouter.get("/get-product", async (request, response) => {
     try{
-       const productfind= await productModel.find();
-         console.log(productfind);
+        const productfind = await productModel.find();
+        console.log(productfind);
+        
         if(!productfind){
-            return res.status(400).json({message:"No products found"});
+            return response.status(400).json({message:"No products found"});
         }
+        
         const products = productfind.map((product) => {
             return {
                 id: product._id,
@@ -23,9 +25,14 @@ productrouter.get("/get-product", async (req, res) => {
                 email: product.email,
                 images: product.images,
                 createdAt: product.createdAt,
+                seller: product.seller,
 
             };
         });
+
+        response.json({
+            info: productfind
+        })
 
         return  products
         
@@ -35,36 +42,44 @@ productrouter.get("/get-product", async (req, res) => {
     }
 });
 
-productrouter.post("/post-product",productupload.array('files'),async(req, res) => {
-    const {name, description, category, tags, price, stock, email} = req.body;
+productrouter.post("/post-product", productupload.array('files'), async(req, res) => {
+    const {name, description, category, tags, price, stock, email, seller} = req.body;
     const images = req.files.map((file) => file.path);
+
+    if(!seller){
+        return res.status(400).json({message:"Seller not found"});
+    }
+    
+    if(images.length === 0){
+        return res.status(400).json({message:"Please upload atleast one image"});
+    }
+    
     try{
-        const product = await productModel.findone({email:email});
-        if(!seller){
-            return res.status(400).json({message:"Seller not found"});
-        }
-        if(images.length === 0){
-            return res.status(400).json({message:"Please upload atleast one images"});
-        }
-        await productModel.create({
-            name:name,
-            description:description,
-            category:category,
-            tags:tags,
-            price:price,
-            stock:stock,
-            email:email,
-            images:images
+        
+        const newProduct = await productModel.create({
+            name,
+            description,
+            category,
+            tags,
+            price,
+            stock,
+            email,
+            seller,
+            images,        });
+        
+        res.status(200).json({
+            message:"Product added successfully",
+            product: newProduct
         });
     }
     catch(err){
         console.log(err);
+        res.status(500).json({ message: "Internal server error", error: err.message });
     }
-    res.status(200).json({message:"Product added successfully"});
 
 });
 
-productrouter.post("/cart", async(req, res) => {
+productrouter.post("/post-cart", async(req, res) => {
     const {email, id, name, quantity} = req.body;
 
     try {
@@ -98,7 +113,7 @@ productrouter.post("/cart", async(req, res) => {
     }
 })
 
-productrouter.get("/getcart", async(req, res)=>{
+productrouter.get("/get-cart", async(req, res)=>{
     try{
         const email = req.body;
         if (!email) {
@@ -120,17 +135,19 @@ productrouter.get("/getcart", async(req, res)=>{
 productrouter.put('/edit-product/:id',productupload.array('files',10),async(req,res)=>{
 
     try{
-    const {id}=req.params
-    console.log(id)
-    const {name, description, category, tags, price, stock, email} = req.body;
-    const existproduct=await productModel.findById(id)
+        const { id } = req.params;
+        console.log(id);
+        const { name, description, category, tags, price, stock, email } = req.body;
+        const existproduct = await productModel.findById(id)
 
-    if(!existproduct){
-        res.status(400).json({message:"product does not exist"})
+        if(!existproduct){
+            res.status(400).json({message:"product does not exist"})
     }
-    const updateimages=existproduct.images
-    if(req.files && req.files.length>0){
-        updateimages=req.files.map((img)=>{
+    
+    const updateimages = existproduct.images;
+
+    if (req.files && req.files.length>0) {
+        updateimages = req.files.map((img) => {
             return `/product/${path.basename(img.path)}`
         })
     }
@@ -145,19 +162,21 @@ productrouter.put('/edit-product/:id',productupload.array('files',10),async(req,
 
    await existproduct.save()
 
-    res.status(200).json({product:existproduct})
+    res.status(200).json({
+        product: existproduct
+    })
 
     }
-    catch(err){
+    catch (err) {
         console.log('error in updating')
     }
 
 })
 
 productrouter.delete('/delete-product/:id',async(req,res)=>{
-    try{
-        const {id}=req.params
-        const existproduct=await productModel.findById(id)
+    try {
+        const { id } = req.params;
+        const existproduct = await productModel.findById(id);
 
         if(!existproduct){
             res.status(400).json({message:"product does not exist"})
@@ -165,7 +184,8 @@ productrouter.delete('/delete-product/:id',async(req,res)=>{
 
         await existproduct.deleteOne()
 
-    }catch(err){
+    }
+    catch(err) {
         console.log('error in delete')
     }
 })
