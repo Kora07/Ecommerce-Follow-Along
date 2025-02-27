@@ -4,114 +4,119 @@ import { AiOutlinePlusCircle } from "react-icons/ai";
 import { useNavigate, useParams } from "react-router-dom";
 
 export const ProductForm = () => {
-   const { id } = useParams();
-   const navigate=useNavigate()
-    const isEdit = Boolean(id);
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState("");
-  const [stock, setStock] = useState("");
-  const [tag, setTag] = useState("");
-  const [email, setEmail] = useState("");
+	const { id } = useParams();
+	const navigate = useNavigate()
+	const isEdit = Boolean(id);
+	const [name, setName] = useState("");
+	const [price, setPrice] = useState("");
+	const [description, setDescription] = useState("");
+	const [category, setCategory] = useState("");
+	const [stock, setStock] = useState("");
+	const [tag, setTag] = useState("");
+	const [email, setEmail] = useState("");
+	const [seller, setSeller] = useState("");
 
-  const [preview, setPreview] = useState([]);
-  const [image, setImage] = useState([]);
+	const [preview, setPreview] = useState([]);
+	const [files, setfiles] = useState([]);
 
 
-  useEffect(() => {
-    if (isEdit) {
-        axios
-            .get(`http://localhost:8000/api/v2/product/product/${id}`)
-            .then((response) => {
-                const p = response.data.product;
-                setName(p.name);
-                setDescription(p.description);
-                setCategory(p.category);
-                setTag(p.tags || "");
-                setPrice(p.price);
-                setStock(p.stock);
-                setEmail(p.email);
-                if (p.images && p.images.length > 0) {
-                    setPreview(
-                        p.images.map((imgPath) => `http://localhost:3000${imgPath}`)
-                    );
-                }
-            })
-            .catch((err) => {
-                console.error("Error fetching product:", err);
-            });
-    }
-}, [id, isEdit]);
+	useEffect(() => {
+		if (id) {
+			axios
+				.get(`http://localhost:3000/product/edit-product/${id}`)
+				.then((response) => {
+					const p = response.data.product;
+					console.log(p)
+					setName(p.name);
+					setDescription(p.description);
+					setCategory(p.category);
+					setTag(p.tags || "");
+					setPrice(p.price);
+					setStock(p.stock);
+					setEmail(p.email);
+					if (p.files && p.files.length > 0) {
+						setPreview(
+							p.files.map((imgPath) => `http://localhost:3000${imgPath}`)
+						);
+					}
+				})
+				.catch((err) => {
+					console.error("Error fetching product:", err);
+				});
+		}
+	}, [id]);
 
-  const handleImage = (e) => {
-    const files = Array.from(e.target.files);
-    
-    // Update state with new images
-    setImage(files);
+  	const handlefiles = (e) => {
+		const files = Array.from(e.target.files);
+		
+		setfiles(files);
 
-    // Generate previews
-    const imgPreviews = files.map((file) => URL.createObjectURL(file));
-    setPreview(imgPreviews);
-  };
+		const imgPreviews = files.map((file) => URL.createObjectURL(file));
+		setPreview(imgPreviews);
+  	};
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("email", email);
-    formData.append("price", price);
-    formData.append("description", description);
-    formData.append("category", category);
-    formData.append("stock", stock);
-    formData.append("tag", tag);
+  	const handleSubmit = async (e) => {
+		e.preventDefault();
+		const formData = new FormData();
+		formData.append("name", name);
+		formData.append("email", email);
+		formData.append("price", price);
+		formData.append("description", description);
+		formData.append("category", category);
+		formData.append("stock", stock);
+		formData.append("tag", tag);
+		formData.append("seller", seller);
 
-    image.forEach((img) => formData.append("image", img));
+		files.forEach((img) => formData.append("files", img));
 
-    try {
+		try {
 
-      if (isEdit) {
-        const response = await axios.put(
-            `http://localhost:8000/api/v2/product/update-product/${id}`,
-            formData,
-            {
-                headers: { "Content-Type": "multipart/form-data" },
-            }
-        );
-        if (response.status === 200) {
-            alert("Product updated successfully!");
-            navigate("/my-products");
-        }
-    }
-     else {
-        const res = await axios.post("http://localhost:3000/product/post-product", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-  
-      });
-  
+			if (isEdit) {
+				const response = await axios.put(
+					`http://localhost:3000/product/edit-product/${id}`,
+					formData,
+					{
+						headers: { "Content-Type": "multipart/form-data" },
+					}
+				);
+				if (response.status === 200) {
+					alert("Product updated successfully!");
+					navigate("/my-products");
+				}
+			}
+			else {
+				const res = await axios.post("http://localhost:3000/product/post-product", 
+				formData, {
+				headers: {
+					"Content-Type": "multipart/form-data",
+				},
+		
+			});
+		
 
-      if (res.status === 200) {
-        alert("Product Added Successfully");
+				if (res.status === 200) {
+					alert("Product Added Successfully");
 
-        // Reset form
-        setEmail("");
-        setName("");
-        setPrice("");
-        setDescription("");
-        setCategory("");
-        setStock("");
-        setTag("");
-        setImage([]);
-        setPreview([]);
-      }
-    } 
-  } catch (error) {
-      console.error("Error adding product:", error);
-      alert("Failed to add product");
-    }
-  };
+					// Form reset
+					setEmail("");
+					setName("");
+					setPrice("");
+					setDescription("");
+					setCategory("");
+					setStock("");
+					setTag("");
+					setfiles([]);
+					setPreview([]);
+					setSeller("");
+				}
+			} 
+		} 
+		catch (error) {
+			console.error("Error adding product:", error.response?.data || error.message);
+			alert("Failed to add product: " + (error.response?.data?.message || "Unknown error"));
+		}
+		
+	};
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -122,69 +127,77 @@ export const ProductForm = () => {
         <h2 className="text-2xl font-bold text-center mb-4">Add Product</h2>
 
         <div className="mb-4">
-          <label className="block text-gray-700">Email</label>
-          <input type="email" required onChange={(e) => setEmail(e.target.value)} value={email} 
-            placeholder="Enter Your Email"
-            className="w-full p-2 border rounded"
-          />
+			<label className="block text-gray-700">Email</label>
+			<input type="email" required onChange={(e) => setEmail(e.target.value)} value={email} 
+				placeholder="Enter Your Email"
+				className="w-full p-2 border rounded"
+			/>
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700">Product Name</label>
-          <input type="text" required onChange={(e) => setName(e.target.value)} value={name} 
-            placeholder="Enter Product Name"
-            className="w-full p-2 border rounded"
-          />
+			<label className="block text-gray-700">Product Name</label>
+			<input type="text" required onChange={(e) => setName(e.target.value)} value={name} 
+				placeholder="Enter Product Name"
+				className="w-full p-2 border rounded"
+			/>
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700">Product Price</label>
-          <input type="number" required onChange={(e) => setPrice(e.target.value)} value={price} 
-            placeholder="Enter Product Price"
-            className="w-full p-2 border rounded"
-          />
+			<label className="block text-gray-700">Product Price</label>
+			<input type="number" required onChange={(e) => setPrice(e.target.value)} value={price} 
+				placeholder="Enter Product Price"
+				className="w-full p-2 border rounded"
+			/>
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700">Product Description</label>
-          <input type="text" required onChange={(e) => setDescription(e.target.value)} value={description} 
-            placeholder="Enter Description"
-            className="w-full p-2 border rounded"
-          />
+			<label className="block text-gray-700">Product Description</label>
+			<input type="text" required onChange={(e) => setDescription(e.target.value)} value={description} 
+				placeholder="Enter Description"
+				className="w-full p-2 border rounded"
+			/>
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700">Product Category</label>
-          <input type="text" required onChange={(e) => setCategory(e.target.value)} value={category} 
-            placeholder="Enter Category"
-            className="w-full p-2 border rounded"
-          />
+			<label className="block text-gray-700">Product Category</label>
+			<input type="text" required onChange={(e) => setCategory(e.target.value)} value={category} 
+				placeholder="Enter Category"
+				className="w-full p-2 border rounded"
+			/>
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700">Product Stock</label>
-          <input type="number" required onChange={(e) => setStock(e.target.value)} value={stock} 
-            placeholder="Enter Stock"
-            className="w-full p-2 border rounded"
-          />
+			<label className="block text-gray-700">Product Stock</label>
+			<input type="number" required onChange={(e) => setStock(e.target.value)} value={stock} 
+				placeholder="Enter Stock"
+				className="w-full p-2 border rounded"
+			/>
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700">Product Tag</label>
-          <input type="text" required onChange={(e) => setTag(e.target.value)} value={tag} 
-            placeholder="Enter Tag"
-            className="w-full p-2 border rounded"
-          />
+			<label className="block text-gray-700">Product Tag</label>
+			<input type="text" required onChange={(e) => setTag(e.target.value)} value={tag} 
+				placeholder="Enter Tag"
+				className="w-full p-2 border rounded"
+			/>
+        </div>
+		
+        <div className="mb-4">
+			<label className="block text-gray-700">Product Seller</label>
+			<input type="text" required onChange={(e) => setSeller(e.target.value)} value={seller} 
+				placeholder="Enter Seller"
+				className="w-full p-2 border rounded"
+			/>
         </div>
 
         <div className="mb-4">
-          <label className="block text-gray-700">Product Image</label>
-          <input type="file" multiple required onChange={handleImage} id="upload" className="hidden" />
-          
-          <label htmlFor="upload" className="flex items-center gap-2 cursor-pointer text-blue-500 hover:text-blue-700">
-            <AiOutlinePlusCircle size={24} />
-            <span>Upload Images</span>
-          </label>
+			<label className="block text-gray-700">Product files</label>
+			<input type="file" multiple required onChange={handlefiles} id="upload" className="hidden" />
+			
+			<label htmlFor="upload" className="flex items-center gap-2 cursor-pointer text-blue-500 hover:text-blue-700">
+				<AiOutlinePlusCircle size={24} />
+				<span>Upload files</span>
+			</label>
         </div>
 
         {preview.length > 0 && (

@@ -1,0 +1,23 @@
+meta {
+  name: FOLLOW - POST REQUEST
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3000/product/post-product
+  body: multipartForm
+  auth: none
+}
+
+body:multipart-form {
+  name: watch
+  description: to see time
+  category: watches
+  tags: moretags
+  price: 400
+  stock: 192
+  email: watchboy277@gmail.com
+  seller: casio
+  files: @file(C:\Users\notth\Downloads\Telegram\Ace.jpg)
+}

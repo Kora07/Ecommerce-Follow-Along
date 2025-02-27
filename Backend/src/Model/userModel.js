@@ -1,4 +1,3 @@
-const {model} = require('mongoose');
 const mongoose = require('mongoose');
 
 const userSchema =new mongoose.Schema ({
@@ -79,5 +78,5 @@ const userSchema =new mongoose.Schema ({
 	resetPasswordTime: Date,
 });
 
-const userModel = model('User',userSchema);  
+const userModel = mongoose.model('User',userSchema);  
 module.exports = userModel;
