@@ -48,15 +48,15 @@ export const Home = () => {
 	}, []);
 
 
-	return (
-		<div className='w-full min-h-screen'>
-		<div className="grid grid-cols-5 gap-4 p-4">{
-			products.map((product,index)=>{
-				return(
-					<>
-					<Productcard key={index} {...product}/></>
-				)})}
-			</div>
-		</div>
-	)
+	// return (
+	// 	<div className='w-full min-h-screen'>
+	// 	<div className="grid grid-cols-5 gap-4 p-4">{
+	// 		products.map((product,index)=>{
+	// 			return(
+	// 				<>
+	// 				<Productcard key={index} {...product}/></>
+	// 			)})}
+	// 		</div>
+	// 	</div>
+	// )
 }
