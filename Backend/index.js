@@ -1,9 +1,9 @@
 const express=require('express');
 const connectDB = require('./src/Database/db');
-const userModel = require('./src/Model/userModel');
-const productModel = require('./src/Model/Productmodel');
-const userrouter = require('./src/Controllers/user');
-const productrouter = require('./src/Controllers/products');
+// const userModel = require('./src/Model/userModel');
+// const productModel = require('./src/Model/Productmodel');
+const userRouter = require('./src/Controllers/user');
+const productRouter = require('./src/Controllers/products');
 const app = express();
 
 const cors = require("cors");
@@ -22,8 +22,6 @@ app.get('/', (req, res) => {
     res.send('Hello World');
 })
 
-app.use('/auth', userrouter);
-
 app.listen(PORT, async() => {
     try {
         await connectDB(url);
@@ -34,5 +32,5 @@ app.listen(PORT, async() => {
     }
 })
 
-app.use('/auth', userrouter);
-app.use('/product', productrouter);
+app.use('/user', userRouter);
+app.use('/product', productRouter);
