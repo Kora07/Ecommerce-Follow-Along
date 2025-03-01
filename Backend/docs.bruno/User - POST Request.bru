@@ -1,0 +1,18 @@
+meta {
+  name: User - POST Request
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:3000/user/create-user
+  body: multipartForm
+  auth: none
+}
+
+body:multipart-form {
+  name: Jack
+  email: jackster@gmail.com
+  password: iAmTheJackster
+  file: @file(C:\Users\notth\Downloads\Telegram Desktop\Ace.jpg)
+}

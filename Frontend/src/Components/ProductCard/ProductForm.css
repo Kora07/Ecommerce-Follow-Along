@@ -7,13 +7,13 @@
 
 /* Main Form */
 
-h2 {
+.add-product-container h2 {
     text-align: center;
     font-weight: 600;
     font-size: 1.5rem;
 }
 
-form {
+.add-product-container form {
     display: flex;
     flex-direction: column;
     border: 2px solid black;
@@ -22,13 +22,13 @@ form {
     width: 30%;
 }
 
-form input {
+.add-product-container form input {
     margin-bottom: 10px;
     border: 1px solid black;
     padding: 5px;
 }
 
-form button {
+.add-product-container form button {
     margin-top: 10px;
 }
 
