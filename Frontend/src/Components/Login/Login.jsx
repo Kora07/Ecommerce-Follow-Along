@@ -1,76 +1,51 @@
+import { useState } from 'react';
 import './login.css';
+import { useNavigate } from 'react-router-dom';
 
 export default function Example() {
-  return (
-    <>
-      <div className="container">
-        <div className="logo-section">
-          <img
-            alt="Your Company"
-            src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
-            className="logo"
-          />
-          <h2 className="header">Sign in to your account</h2>
-        </div>
 
-        <div className="form-section">
-          <form action="#" method="POST" className="form">
-            <div>
-              <label htmlFor="email" className="label">
-                Email address
-              </label>
-              <div className="input-container">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  autoComplete="email"
-                  className="input"
-                  placeholder="Enter your email"
-                />
-              </div>
-            </div>
+	const [email, setEmail] = useState();
+	const [password, setPassword] = useState();
 
-            <div>
-              <div className="password-container">
-                <label htmlFor="password" className="label">
-                  Password
-                </label>
-                <div className="forgot-password">
-                  <a href="#" className="link">
-                    Forgot password?
-                  </a>
-                </div>
-              </div>
-              <div className="input-container">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  autoComplete="current-password"
-                  className="input"
-                  placeholder="Enter your password"
-                />
-              </div>
-            </div>
+	const navigate = useNavigate();
 
-            <div className="flex justify-center space-x-4 px-4">
-              <button type="submit" className="submit-button">
-                Sign in
-              </button>
-              <button type="submit" className="submit-button">
-                Sign up
-              </button>
-            </div>
-          </form>
+	return (
+		<>
+			<div className="login-container">
+				<form className="login-form">
+					<h1> Login </h1>
+					<label className="login-email"> Email </label>
+					<input type="email" placeholder="Enter your email" onChange={(e) => {
+						setEmail(e.target.value)
+					}}/>
+					
+					<label className="login-password"> Password </label>
+					<input type="password" placeholder="Enter your Password" onChange={(e) => {
+						setPassword(e.target.value)
+					}}/>
 
-          <p className="footer-text">
-            <a href="#">Need help?</a>
-          </p>
-        </div>
-      </div>
-    </>
-  );
+					<div className="login-remember-forgot">
+						<div className="login-remember">
+							<input type="checkbox" /> 
+							<p> Remember me</p>
+						</div>
+						<div className="login-forgot" onClick={() => navigate("/forgot-password")}>
+							Forgot Password?
+						</div>
+					</div>
+
+					<button type="submit" className="login-button"> Login </button>
+
+					<br />
+
+					<div>
+						<label> Don't have an account? {" "} </label>
+						<span className="login-sign-up" onClick={() => navigate("/Signup")}>  
+							Sign up
+						</span> 
+					</div>
+				</form>
+			</div>
+		</>
+	);
 }
