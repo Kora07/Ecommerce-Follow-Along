@@ -6,6 +6,7 @@ import { Home } from './page/Home'
 import { ProductForm } from './Components/ProductCard/Productform'
 import { Productcardseller } from './Components/productcardforseller'
 import Navbar from "./Components/Navbar/Navbar";
+import Cart from "./Components/Cart/Cart"
 import Singlecard from './Components/Singlecard'
 
 
@@ -18,7 +19,8 @@ function App() {
 				<Route path="/" element={<Home/>}/>
 				<Route path="/Login" element={<Login/>}/>
 				<Route path="/Signup" element={<Signup/>}/>
-				{/* <Route path='/productform' element={<ProductForm/>}/> */}
+				<Route path='/productform' element={<ProductForm/>}/>
+				<Route path="/cart" element={<Cart />} />
 				{/* <Route path='/my-product' element={<Productcardseller/>}/>
 				<Route path= '/product/:id' element={<Singlecard/>}/> */}
 			</Routes>

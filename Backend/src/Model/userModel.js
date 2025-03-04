@@ -1,82 +1,65 @@
 const mongoose = require('mongoose');
 
-const userSchema =new mongoose.Schema ({
-	name:{
+const userSchema = new mongoose.Schema({
+	name: {
 		type: String,
 		required: [true, "Please enter your name!"],
 	},
-	email:{
+	email: {
 		type: String,
 		required: [true, "Please enter your email!"],
 	},
-	password:{
+	password: {
 		type: String,
 		required: [true, "Please enter your password"],
 		minLength: [4, "Password should be greater than 4 characters"],
-		
 	},
-	phoneNumber:{
+	phoneNumber: {
 		type: Number,
 	},
-	addresses:[
+	addresses: [
 		{
-		country: {
-			type: String,
-		},
-		city:{
-			type: String,
-		},
-		address1:{
-			type: String,
-		},
-		address2:{
-			type: String,
-		},
-		zipCode:{
-			type: Number,
-		},
-		addressType:{
-			type: String,
-		},
+			country: { type: String },
+			city: { type: String },
+			address1: { type: String },
+			address2: { type: String },
+			zipCode: { type: Number },
+			addressType: { type: String },
 		}
 	],
-	role:{
+	role: {
 		type: String,
 		default: "user",
 	},
-	avatar:{
-		public_id: {
-			type: String,
-			required: true,
-		},
-		url: {
-			type: String,
-			required: true,
-		},
+	avatar: {
+		public_id: { type: String, required: true },
+		url: { type: String, required: true },
 	},
-	createdAt:{
+	createdAt: {
 		type: Date,
 		default: Date.now(),
 	},
-	cart: [{
-		productId: {
-			type: String,
-			unique: true,
-			required: true,
-		},
-		productName: {
-			type: String,
-			required: true,
-		},
-		quantity: {
-			type: Number,
-			required: true,
-			min: 1,
-		},
-	}],
+	cart: [
+		{
+			productId: {
+				type: mongoose.Schema.Types.ObjectId,
+				ref: 'Product',
+				required: true,
+			},
+			productName: {
+				type: String,
+				required: true,
+			},
+			quantity: {
+				type: Number,
+				required: true,
+				min: 1,
+			},
+		}
+	],
 	resetPasswordToken: String,
 	resetPasswordTime: Date,
 });
 
-const userModel = mongoose.model('User',userSchema);  
+const userModel = mongoose.model('User', userSchema);
 module.exports = userModel;
