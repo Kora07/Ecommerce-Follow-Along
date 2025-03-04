@@ -7,7 +7,9 @@ const productRouter = require('./src/Controllers/products');
 const app = express();
 
 const cors = require("cors");
-app.use(cors());
+app.use(cors({ origin: "*" }));  // Allow all origins
+app.use('/product', express.static('uploads'));  // Serve images
+
 
 app.use(express.json());
 

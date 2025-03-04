@@ -99,7 +99,7 @@ productRouter.put('/edit-product/:id', productUpload.array('files',10), async (r
             })
         }
     
-        const updateimages = existingProduct.images;
+        let updateimages = existingProduct.images;
 
         if (req.files && req.files.length>0) {
             updateimages = req.files.map((img) => {
@@ -124,7 +124,7 @@ productRouter.put('/edit-product/:id', productUpload.array('files',10), async (r
 
     }
     catch (err) {
-        console.log('error in updating')
+        console.log('error in updating', err)
     }
 
 })
@@ -212,10 +212,10 @@ productRouter.post('/post-cart', async (request, response) => {
 
 productRouter.get("/get-cart", async(req, res)=>{
     try{
-        const { email } = req.body;
+        const { email } = req.query;
 
         if (!email) {
-            return res.status(404).json({message:"user does not exist"});
+            return res.status(404).json({message:"email is required"});
         }
 
         const user = await userModel.findOne({ email }).populate("cart.productId");
@@ -226,11 +226,12 @@ productRouter.get("/get-cart", async(req, res)=>{
 
         return res.status(200).json({
             message: "cart successfully retrieved",
-            userCart: user,
+            userCart: user.cart,
         })
     }
     catch (error){
         console.log(error);
+        res.status(500).json({ message: "Server error", error: error.message });
     }
 })
 
