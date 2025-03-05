@@ -1,0 +1,27 @@
+meta {
+  name: PUT Request - Edit Address
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://localhost:3000/user/edit-address?email=johndoe@gmail.com
+  body: json
+  auth: none
+}
+
+params:query {
+  email: johndoe@gmail.com
+  : 
+}
+
+body:json {
+      address: {
+          country: "USA",
+          city: "New York",
+          address1: "123 Main St",
+          address2: "Apt 4B",
+          zipCode: 10001,
+          addressType: "Home"
+      }
+}

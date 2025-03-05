@@ -1,0 +1,17 @@
+meta {
+  name: GET request
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:3000/product/get-cart
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "jack123@gmail.com"
+  }
+}

@@ -1,0 +1,16 @@
+/* Main Cart Component */
+
+/* Bottom Total */
+
+.singularCartComponentTotal {
+    border: 2px solid black;
+    width: 70%;
+    display: flex;
+    flex-direction: row-reverse;
+    margin-right: 20%;
+    padding: 20px;
+}
+
+.singularCartComponentTotal p {
+    margin-right: 5%;
+}

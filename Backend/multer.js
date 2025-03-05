@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
 
   const productStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, 'productupload/'); 
+      cb(null, 'productUpload/'); 
     },
     filename: function(req, file, cb) {
       const uniqueSuffix =  Date.now() + '-' + Math.round.apply(Math.random() * 1e9);
@@ -27,4 +27,4 @@ const storage = multer.diskStorage({
   });
   
 exports.upload = multer({ storage: storage });
-exports.productupload = multer({ storage: productStorage });
+exports.productUpload = multer({ storage: productStorage });

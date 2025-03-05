@@ -6,7 +6,11 @@ import { Home } from './page/Home'
 import { ProductForm } from './Components/ProductCard/Productform'
 import { Productcardseller } from './Components/productcardforseller'
 import Navbar from "./Components/Navbar/Navbar";
+import Cart from "./Components/Cart/Cart"
+import CartComponent from './Components/Cart/CartComponent'
 import Singlecard from './Components/Singlecard'
+import Profile from "./Components/Profile/Profile"
+import Address from "./Components/Address/Address"
 
 
 function App() {
@@ -16,9 +20,13 @@ function App() {
 			<Navbar/>
 			<Routes>
 				<Route path="/" element={<Home/>}/>
-				<Route path="/Login" element={<Login/>}/>
-				<Route path="/Signup" element={<Signup/>}/>
-				{/* <Route path='/productform' element={<ProductForm/>}/> */}
+				<Route path="/login" element={<Login/>}/>
+				<Route path="/signup" element={<Signup/>}/>
+				<Route path='/productform' element={<ProductForm/>}/>
+				<Route path="/cart" element={<Cart />} />
+				<Route path="/cartcomponent" element={<CartComponent />} />
+				<Route path="profile" element={<Profile />} />
+				<Route path="addaddress" element={<Address />} />
 				{/* <Route path='/my-product' element={<Productcardseller/>}/>
 				<Route path= '/product/:id' element={<Singlecard/>}/> */}
 			</Routes>

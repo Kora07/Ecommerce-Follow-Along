@@ -1,10 +1,14 @@
 const { Router } = require('express');
-const { productupload } = require('../../multer');
+const mongoose = require("mongoose");
+const { productUpload } = require('../../multer');
+const userModel = require("../Model/userModel");
 const productModel = require('../Model/Productmodel');
-const productrouter = Router();
+const productRouter = Router();
 const path = require('path')
 
-productrouter.get("/get-product", async (request, response) => {
+// Products
+
+productRouter.get("/get-product", async (request, response) => {
     try{
         const productfind = await productModel.find();
         console.log(productfind);
@@ -42,7 +46,7 @@ productrouter.get("/get-product", async (request, response) => {
     }
 });
 
-productrouter.post("/post-product", productupload.array('files'), async(req, res) => {
+productRouter.post("/post-product", productUpload.array('files'), async(req, res) => {
     const {name, description, category, tags, price, stock, email, seller} = req.body;
     const images = req.files.map((file) => file.path);
 
@@ -79,115 +83,204 @@ productrouter.post("/post-product", productupload.array('files'), async(req, res
 
 });
 
-productrouter.post("/post-cart", async(req, res) => {
-    const {email, id, name, quantity} = req.body;
+
+productRouter.put('/edit-product/:id', productUpload.array('files',10), async (req, res) => {
 
     try {
-        if (!email || !id || !name || !quantity) {
-            return res.status(400).json({ message: "Missing required fields" });
-        }
-        
-        const findEmail = await userModel.findOne({ email: "email"})
-        if (!findEmail) {
-            return res.status(404).json({ message: "User does not exist" });
-        }
-        if (!mongoose.types.objectId.isValid(id)) {
-            return res.status(400).json({ message: "Invalid product id" });
-        }
-
-        if (quantity > 0 && !quantity) {
-            return res.status(400).json({ message: "Invalid quantity" });
-        }
-
-        const findProduct = await productModel.findById(productId);
-        if (!findProduct) {
-            return res.status(404).json({ message: "Product not found" });
-        }
-
-        const cartProduct = await userModel.cart.findIndex((i) => {
-            return i.productId === productId
-        })
-    }
-    catch (error) {
-        console.log(error);
-    }
-})
-
-productrouter.get("/get-cart", async(req, res)=>{
-    try{
-        const email = req.body;
-        if (!email) {
-            return res.status(404).json({message:"user does not exist"});
-        }
-        const user = await userModel.findOne({email:email}).populate({
-            path: 'cart.productId',
-            model:productModel
-        })
-        if(!user){
-            return res.status(404).json({message:"User not found"});
-        }
-    }
-    catch (error){
-        console.log(error);
-    }
-})
-
-productrouter.put('/edit-product/:id',productupload.array('files',10),async(req,res)=>{
-
-    try{
         const { id } = req.params;
         console.log(id);
+        
         const { name, description, category, tags, price, stock, email } = req.body;
-        const existproduct = await productModel.findById(id)
+        const existingProduct = await productModel.findById(id)
 
-        if(!existproduct){
-            res.status(400).json({message:"product does not exist"})
-    }
+        if (!existingProduct){
+            res.status(400).json({
+                message:"product does not exist"
+            })
+        }
     
-    const updateimages = existproduct.images;
+        let updateimages = existingProduct.images;
 
-    if (req.files && req.files.length>0) {
-        updateimages = req.files.map((img) => {
-            return `/product/${path.basename(img.path)}`
+        if (req.files && req.files.length>0) {
+            updateimages = req.files.map((img) => {
+                return `/product/${path.basename(img.path)}`
+            })
+        }
+
+        existingProduct.name = name;
+        existingProduct.description = description;
+        existingProduct.category = category;
+        existingProduct.tags = tags;
+        existingProduct.price = price;
+        existingProduct.stock = stock;
+        existingProduct.email = email;
+        existingProduct.images = updateimages;
+
+        await existingProduct.save()
+
+        res.status(200).json({
+            product: existingProduct
         })
-    }
-    existproduct.name=name
-    existproduct.description=description
-    existproduct.category=category
-    existproduct.tags=tags
-    existproduct.price=price
-    existproduct.stock=stock
-    existproduct.email=email
-    existproduct.images=updateimages
-
-   await existproduct.save()
-
-    res.status(200).json({
-        product: existproduct
-    })
 
     }
     catch (err) {
-        console.log('error in updating')
+        console.log('error in updating', err)
     }
 
 })
 
-productrouter.delete('/delete-product/:id',async(req,res)=>{
+productRouter.delete('/delete-product/:id', async (req,res)=>{
     try {
         const { id } = req.params;
-        const existproduct = await productModel.findById(id);
+        const existingProduct = await productModel.findById(id);
 
-        if(!existproduct){
+        if(!existingProduct){
             res.status(400).json({message:"product does not exist"})
         }
 
-        await existproduct.deleteOne()
+        await existingProduct.deleteOne()
 
     }
-    catch(err) {
+    catch(error) {
         console.log('error in delete')
     }
 })
 
-module.exports = productrouter;
+
+// Cart
+
+productRouter.post('/post-cart', async (request, response) => {
+
+    const { email, productId, productname, quantity } = request.body;
+
+    try {
+        if (!email) {
+            return response.status(404).json({
+                message: "missing email field"
+            })
+        }
+       
+        if (!mongoose.Types.ObjectId.isValid(productId)) {
+            return response.status(400).json({
+                message:'product ID is invalid'
+            })
+        }  
+        if (quantity === undefined || quantity <= 0) {
+            return response.status(400).json({
+                message: 'product is unavailable'
+            })
+        }
+
+        const findUser = await userModel.findOne({ email: email });
+        
+        if (!findUser) {
+            return response.status(440).json({
+                message:'user does not exist'
+            })
+        }
+        
+        const findProduct = await productModel.findById(productId);
+        
+        if (!findProduct) {
+            return response.status(400).json({
+                message: 'product does not exist'
+            })
+        }
+
+        const cartproductId = findUser.cart.findIndex(i => i.productId.toString() === productId);
+  
+        if (cartproductId >- 1) {
+            findUser.cart[cartproductId].quantity += quantity;
+        }
+        else {
+            findUser.cart.push({ productId, productname, quantity });
+        }
+
+        await userModel.updateOne(
+            { email },
+            { $set: { cart: findUser.cart } }
+        );
+
+        response.status(200).json({ message: "Product added to cart" });
+
+
+    }
+    catch(error) {
+        console.log("error in cart", error);
+    }
+})
+
+productRouter.get("/get-cart", async(req, res)=>{
+    try{
+        const { email } = req.query;
+
+        if (!email) {
+            return res.status(404).json({message:"email is required"});
+        }
+
+        const user = await userModel.findOne({ email }).populate("cart.productId");
+
+        if(!user){
+            return res.status(404).json({message:"User not found"});
+        }
+
+        return res.status(200).json({
+            message: "cart successfully retrieved",
+            userCart: user.cart,
+        })
+    }
+    catch (error){
+        console.log(error);
+        res.status(500).json({ message: "Server error", error: error.message });
+    }
+})
+
+productRouter.put('/edit-cart', async (request, response) => {
+
+    const { email, productId, quantity } = request.body;
+    
+    try {
+        if (!email || !productId || quantity == undefined || quantity <= 0) {
+            return response.status(404).json({
+                message: "missing fields"
+            })
+        }
+
+        const findUser = await userModel.findOne({ email: email });
+        
+        if (!findUser) {
+            return response.status(404).json({
+                message: "user not found"
+            });            
+        }
+    
+        const findProduct = await productModel.findOne({_id:productId});
+        
+        if (!findProduct || findProduct.stock <= 0) {
+            return response.status(404).json({
+                message: "product not available"
+            })
+        }
+    
+        const findCartProduct = findUser.cart.find(item => String(item.productId) === String(productId));
+    
+        if (!findCartProduct) {
+            return response.status(404).json({
+                message: "product not found"
+            });
+        }
+
+        findCartProduct.quantity = quantity;
+        await findUser.save({ validateBeforeSave: false });
+        
+        return response.status(200).json({
+            message: "cart successfully edited"
+        })
+    }
+    catch (error) {
+        console.log(error);
+        return response.status(500).json({ message: "server error", error: error.message });
+    }    
+})
+
+module.exports = productRouter;
