@@ -6,6 +6,14 @@ meta {
 
 put {
   url: http://localhost:3000/product/edit-cart
-  body: none
+  body: json
   auth: none
+}
+
+body:json {
+  {
+    "email": "jack123@gmail.com",
+    "productId": "67bfe07a9bef0e0289ae5d80",
+    "quantity": 3
+  }
 }

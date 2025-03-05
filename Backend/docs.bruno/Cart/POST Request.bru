@@ -6,6 +6,15 @@ meta {
 
 post {
   url: http://localhost:3000/product/post-cart
-  body: none
+  body: json
   auth: none
+}
+
+body:json {
+  {
+    "email": "jack123@gmail.com",
+    "productId": "67bfe4aeb22bbdbe4fb2ee86",
+    "productname": "nonce",
+    "quantity": 2
+  }
 }

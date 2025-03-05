@@ -16,7 +16,7 @@ require('dotenv').config({
 });
 
 const PORT = process.env.port || 3000;
-const url = process.env.db_url;
+const URL = process.env.URL;
 
 app.get('/', (req, res) => {    
     res.send('Hello World');
@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 
 app.listen(PORT, async() => {
     try {
-        await connectDB(url);
+        await connectDB(URL);
         console.log(`Server is running on port ${PORT}`);
     }
     catch (err) {
