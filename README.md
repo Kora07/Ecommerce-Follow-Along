@@ -202,10 +202,3 @@ Created a Navbar component that is used in all pages and contains links to the f
 
 ---
 
-### Milestone 21
-- Created a frontend form that takes address (country, city, address1, address2, zip code, address) as input.
-
----
-
-### Milestone 22
-- Created a backend endpoint that stores the address given through the form in the user profile in the database.
