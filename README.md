@@ -187,3 +187,10 @@ Created a Navbar component that is used in all pages and contains links to the f
 ### Milestone 18
 - Created an endpoint to receive requests from the cart page.
 - Created a backend endpoint to fetch all the products inside the cart with user's email.
+
+---
+
+### Milestone 19
+- Created a cart page that displays the products inside the cart using the get-cart endpoint.
+- Added an option to increase and decrease quantity using + and - buttons for each product.
+- Created an endpoint to increase and decrease the quantity.

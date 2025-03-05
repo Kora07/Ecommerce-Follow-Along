@@ -1,102 +1,73 @@
-// import React, { useState } from 'react'
-// import "./Cart.css"
-// import axios from 'axios';
-
-// function Cart() {
-
-//     const [email, setEmail] = useState();
-
-//     const handleIncrement = () => {
-//         const newquantityVal = quantityVal + 1;
-//         setQuantityVal(newquantityVal);
-//         updateQuantityVal(newquantityVal);
-//     };
-
-//     const handleDecrement = () => {
-//         const newquantityVal = quantityVal > 1 ? quantityVal - 1 : 1;
-//         setQuantityVal(newquantityVal);
-//         updateQuantityVal(newquantityVal);
-//     };
-
-//     const updateQuantityVal = (quantity) => {
-//         fetch('http://localhost:3000/product/edit-cart', {
-//             method: 'PUT',
-//             headers: {
-//                 'Content-Type': 'application/json',
-//             },
-//             body: JSON.stringify({
-//                 email:email,
-//                 productId: _id,
-//                 quantity:quantity,
-//             }),
-//         })
-//             .then((res) => {
-//                 if (!res.ok) {
-//                     console.log('error in put req')
-//                 }
-//                 return res.json();
-//             })
-//             .then((data) => {
-//                 console.log('quantityVal updated:', data);
-//             })
-//             .catch((err) => {
-//                 console.error('Error updating quantityVal:', err);
-//             });
-//     };
-
-//     return (
-//         <>
-//             <div className="cartContainer">
-//                 <input type="text" onChange={(e) => {
-//                     setEmail(e.target.value)
-//                     console.log(email)
-//                     }}/> <br />
-//                 <button onClick={updateQuantityVal}> Update </button>
-//             </div>
-//         </>
-//     )
-// }
-
-// export default Cart;
-
-
-import React, { useState, useEffect } from "react";
-import Cart from "./CartComponent";  // Import the Cart component
+import React, { useEffect, useState } from "react";
+import CartComponent from "./CartComponent";
 import axios from "axios";
 
-function CartPage() {
-    const [cartItems, setCartItems] = useState([]);
-    const [email, setEmail] = useState(""); // Email input for fetching cart
+function Cart() {
+    const [cart, setCart] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const userEmail = "jack123@gmail.com";
 
-    const fetchCart = async () => {
+    useEffect(() => {
+        const fetchCart = async () => {
+            try {
+                const response = await axios.get(`http://localhost:3000/product/get-cart?email=${userEmail}`);
+                console.log("API Response:", response.data);
+
+                if (Array.isArray(response.data.userCart)) {
+                    setCart(response.data.userCart);
+                } else {
+                    setCart([]);
+                }
+            } catch (err) {
+                console.error("Error fetching cart:", err);
+                setError("Failed to load cart");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchCart();
+    }, []); // Dependency array ensures it runs only once
+
+    console.log("Cart State:", cart);
+
+    const updateQuantity = async (productId, newQuantity) => {
+        if (newQuantity <= 0) return;
+
         try {
-            const response = await axios.post("http://localhost:3000/product/post-cart", { email: "jack123@gmail.com" });
-            console.log("Cart data:", response.data);
+            await axios.put("http://localhost:3000/product/edit-cart", {
+                email: userEmail,
+                productId,
+                quantity: newQuantity,
+            });
+
+            // Fetch updated cart after update
+            const response = await axios.get(`http://localhost:3000/product/get-cart?email=${userEmail}`);
+            setCart(response.data.userCart); // Ensure full update from backend
         } catch (error) {
-            console.error("Error fetching cart:", error);
+            console.log(error);
         }
     };
-    
+
+    if (loading) return <p>Loading cart...</p>;
+    if (error) return <p>{error}</p>;
 
     return (
-        <div className="cart-page">
-            <h2>Shopping Cart</h2>
-
-            <input
-                type="email"
-                placeholder="Enter email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-            />
-            <button onClick={fetchCart}>Get Cart</button>
-
-            {cartItems.length > 0 ? (
-                <Cart cartItems={cartItems} setCartItems={setCartItems} />
+        <div className="cartContainerMain">
+            {cart.length > 0 ? (
+                cart.map((item) => (
+                    <CartComponent
+                        key={item._id}
+                        product={item}
+                        updateQuantity={updateQuantity}
+                    />
+                ))
             ) : (
-                <p>No items in cart.</p>
+                <p>Your cart is empty</p>
             )}
         </div>
     );
 }
 
-export default CartPage;
+export default Cart;
