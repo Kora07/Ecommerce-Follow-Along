@@ -194,3 +194,18 @@ Created a Navbar component that is used in all pages and contains links to the f
 - Created a cart page that displays the products inside the cart using the get-cart endpoint.
 - Added an option to increase and decrease quantity using + and - buttons for each product.
 - Created an endpoint to increase and decrease the quantity.
+
+---
+
+### Milestone 20
+- Create a frontend profile page that displays profile photo, name, email and addresses.
+
+---
+
+### Milestone 21
+- Created a frontend form that takes address (country, city, address1, address2, zip code, address) as input.
+
+---
+
+### Milestone 22
+- Created a backend endpoint that stores the address given through the form in the user profile in the database.

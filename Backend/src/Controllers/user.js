@@ -27,6 +27,31 @@ userRouter.get("/get-user", async (request, response) => {
     }
 })
 
+userRouter.get("/get-one-user", async (request, response) => {
+    
+    const userEmail = request.query.email; // Accessing the email properly
+
+    if (!userEmail) {
+        return response.status(400).json({ message: "Email is required" });
+    }
+
+    try {
+        const userInfo = await userModel.findOne({ email: userEmail });
+
+        if (!userInfo) {
+            return response.status(404).json({ message: "User not found" });
+        }
+
+        response.status(200).json({
+            message: "User successfully retrieved",
+            user: userInfo // Change "users" to "user" since it's singular
+        });
+    } catch (error) {
+        console.error("Error fetching user:", error);
+        response.status(500).json({ message: "Internal Server Error" });
+    }
+});
+
 
 userRouter.post("/create-user", upload.single('file'), async (req, res, next) => {
     try {
@@ -62,6 +87,39 @@ userRouter.post("/create-user", upload.single('file'), async (req, res, next) =>
         res.status(500).json({ error: error.message });
     }
 });
+
+userRouter.put("/edit-address", async (request, response) => {
+    try {
+        const { address } = request.body; // New address data
+        const email = request.query.email; // Email to find the user
+
+        if (!email || !address) {
+            return response.status(400).json({ message: "Email and address are required." });
+        }
+
+        // Find the user by email and update their addresses
+        const updatedUser = await userModel.findOneAndUpdate(
+            { email: email },
+            { $push: { addresses: address } }, // Push new address to the array
+            { new: true } // Return the updated document
+        );
+
+        if (!updatedUser) {
+            return response.status(404).json({ message: "User not found." });
+        }
+
+        response.status(200).json({
+            message: "Address updated successfully",
+            user: updatedUser
+        });
+
+    } 
+    catch (error) {
+        console.error("Error updating address:", error);
+        response.status(500).json({ message: "Internal Server Error" });
+    }
+});
+
     
 
 

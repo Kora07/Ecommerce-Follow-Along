@@ -1,0 +1,30 @@
+.addAddressContainer {
+    /* border: 2px solid black; */
+    padding: 10px;
+}
+
+.mainAddressPart {
+    /* border: 2px solid blue; */
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.addAddressContainer h1 {
+    font-size: 2rem;
+    font-weight: 500;
+}
+
+.mainAddressPart input {
+    border: 2px solid black;
+    padding: 10px;
+    width: 20%;
+}
+
+.addAddressButton {
+    margin-top: 3%;
+    border: 2px solid green;
+    padding: 10px;
+    border-radius: 10px;
+    width: 10%;
+}
