@@ -216,3 +216,12 @@ Created a Navbar component that is used in all pages and contains links to the f
 - Created a placeorder button inside the cart page which navigates to select address page when clicked.
 - Created a select address page that displays all the available addresses and an option to select one address.
 - Created a backend endpoint that will send the addresses of the user.
+
+--- 
+
+### Milestone 24
+Created an order confirmation page, which 
+- Display all the products that were in cart
+- Displays the address the user selects to deliver to
+- Displays the total value of the cart
+- Has a Confirm Order button

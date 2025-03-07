@@ -12,6 +12,7 @@ import Singlecard from './Components/Singlecard'
 import Profile from "./Components/Profile/Profile"
 import Address from "./Components/Address/Address"
 import SelectAddress from './Components/Address/SelectAddress'
+import OrderConfirmation from './Components/OrderConfirmation/OrderConfirmation'
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
 				<Route path="profile" element={<Profile />} />
 				<Route path="addaddress" element={<Address />} />
 				<Route path="selectaddress" element={<SelectAddress />} />
+				<Route path="orderconfirmation" element={<OrderConfirmation />} />
 				{/* <Route path='/my-product' element={<Productcardseller/>}/>
 				<Route path= '/product/:id' element={<Singlecard/>}/> */}
 			</Routes>

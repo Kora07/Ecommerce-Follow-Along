@@ -1,67 +1,71 @@
-import React, { useState, useEffect } from 'react'
-import axios from "axios"
-import "./SelectAddress.css"
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import "./SelectAddress.css";
+import { useNavigate } from "react-router-dom";
 
 function SelectAddress() {
-
     const userEmail = "jack123@gmail.com";
     const [addresses, setAddresses] = useState([]);
-    const [selectedAddress, setSelectedAddress] = useState([]);
+    const [selectedAddress, setSelectedAddress] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const handleGetAddress = async () => {
             try {
                 const response = await axios.get(`http://localhost:3000/user/get-one-user?email=${userEmail}`);
-                console.log("Addresses Fetched: ");
-                setAddresses(response.data.user);
-                console.log(addresses);
-            }
-            catch (error) {
+                console.log("Addresses Fetched:", response.data.user);
+                setAddresses(response.data.user.addresses || []);
+            } catch (error) {
                 console.log("Error fetching addresses", error);
             }
-        }
-        
+        };
+
         handleGetAddress();
     }, []);
 
+    // Function to handle address selection and store in localStorage
+    const handleSelectAddress = (index) => {
+        const selected = addresses[index]; // Get selected address
+        setSelectedAddress(selected);
+        localStorage.setItem("selectedAddress", JSON.stringify(selected)); // Store in localStorage
+    };
 
     return (
-        <>
-            <div className="selectAddress">
-                <div className="cartAddresses">
-                    <h2> Select Your Address: </h2>
+        <div className="selectAddress">
+            <div className="cartAddresses">
+                <h2>Select Your Address:</h2>
 
-                    <div className="cartSelectAddress">
-                        {addresses?.addresses?.length > 0 ? (
-                            addresses.addresses.map((addr, index) => (
-                                <div key={index}>
-                                    <input
-                                        type="radio"
-                                        name="selectedAddress"
-                                        value={index}
-                                        id={`address-${index}`}
-                                        onChange={() => setSelectedAddress(index)} // Handle selection
-                                    />
-                                    <label htmlFor={`address-${index}`}>
-                                        <h3>{addr.addressType}:</h3>
-                                        {addr.address1}, {addr.address2} <br />
-                                        {addr.city}, {addr.country} - {addr.zipCode}
-                                    </label>
-                                </div>
-                            ))
-                        ) : (
-                            <p>No address available</p>
-                        )}
-                    </div>
+                <div className="cartSelectAddress">
+                    {addresses.length > 0 ? (
+                        addresses.map((addr, index) => (
+                            <div key={index}>
+                                <input
+                                    type="radio"
+                                    name="selectedAddress"
+                                    value={index}
+                                    id={`address-${index}`}
+                                    onChange={() => handleSelectAddress(index)} // Save to localStorage
+                                />
+                                <label htmlFor={`address-${index}`}>
+                                    <h3>{addr.addressType}:</h3>
+                                    {addr.address1}, {addr.address2} <br />
+                                    {addr.city}, {addr.country} - {addr.zipCode}
+                                </label>
+                            </div>
+                        ))
+                    ) : (
+                        <p>No address available</p>
+                    )}
                 </div>
-
-                <div className="proceedFromAddress">
-                    <button className="proceedToCheckoutButton"> Proceed to Checkout </button>
-                </div>
-                
             </div>
-        </>
-    )
+
+            <div className="proceedFromAddress">
+                <button className="proceedToCheckoutButton" onClick={() => navigate("/orderconfirmation")}>
+                    Proceed to Checkout
+                </button>
+            </div>
+        </div>
+    );
 }
 
-export default SelectAddress
+export default SelectAddress;
