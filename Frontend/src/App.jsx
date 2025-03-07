@@ -11,6 +11,7 @@ import CartComponent from './Components/Cart/CartComponent'
 import Singlecard from './Components/Singlecard'
 import Profile from "./Components/Profile/Profile"
 import Address from "./Components/Address/Address"
+import SelectAddress from './Components/Address/SelectAddress'
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
 				<Route path="/cartcomponent" element={<CartComponent />} />
 				<Route path="profile" element={<Profile />} />
 				<Route path="addaddress" element={<Address />} />
+				<Route path="selectaddress" element={<SelectAddress />} />
 				{/* <Route path='/my-product' element={<Productcardseller/>}/>
 				<Route path= '/product/:id' element={<Singlecard/>}/> */}
 			</Routes>

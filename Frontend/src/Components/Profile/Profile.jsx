@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 function Profile() {
-    const userEmail = "johndoe@gmail.com";
+    const userEmail = "jack123@gmail.com";
     const [userData, setUserData] = useState(null);
     const navigate = useNavigate();
 

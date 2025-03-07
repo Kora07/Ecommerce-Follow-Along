@@ -211,3 +211,8 @@ Created a Navbar component that is used in all pages and contains links to the f
 - Created a backend endpoint that stores the address given through the form in the user profile in the database.
 
 ---
+
+### Milestone 23
+- Created a placeorder button inside the cart page which navigates to select address page when clicked.
+- Created a select address page that displays all the available addresses and an option to select one address.
+- Created a backend endpoint that will send the addresses of the user.

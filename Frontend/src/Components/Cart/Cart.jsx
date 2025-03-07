@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
 import CartComponent from "./CartComponent";
 import axios from "axios";
+import "./Cart.css"
+import { useNavigate } from "react-router-dom";
 
 function Cart() {
     const [cart, setCart] = useState([]);
+    const [addresses, setAddresses] = useState([]);
+    const [selectedAddress, setSelectedAddress] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const userEmail = "jack123@gmail.com";
+
+    const navigate = useNavigate();
+
 
     useEffect(() => {
         const fetchCart = async () => {
@@ -19,16 +26,31 @@ function Cart() {
                 } else {
                     setCart([]);
                 }
-            } catch (err) {
-                console.error("Error fetching cart:", err);
+            } 
+            catch (error) {
+                console.error("Error fetching cart:", error);
                 setError("Failed to load cart");
-            } finally {
+            } 
+            finally {
                 setLoading(false);
             }
         };
-
+        
+        const handleGetAddress = async () => {
+            try {
+                const response = await axios.get(`http://localhost:3000/user/get-one-user?email=${userEmail}`);
+                console.log("Addresses Fetched: ");
+                setAddresses(response.data.user);
+                console.log(addresses);
+            }
+            catch (error) {
+                console.log("Error fetching addresses", error);
+            }
+        }
+        
         fetchCart();
-    }, []); // Dependency array ensures it runs only once
+        handleGetAddress();
+    }, []);
 
     console.log("Cart State:", cart);
 
@@ -44,8 +66,9 @@ function Cart() {
 
             // Fetch updated cart after update
             const response = await axios.get(`http://localhost:3000/product/get-cart?email=${userEmail}`);
-            setCart(response.data.userCart); // Ensure full update from backend
-        } catch (error) {
+            setCart(response.data.userCart);
+        } 
+        catch (error) {
             console.log(error);
         }
     };
@@ -53,20 +76,45 @@ function Cart() {
     if (loading) return <p>Loading cart...</p>;
     if (error) return <p>{error}</p>;
 
+    const handleGetAddress = async () => {
+        try {
+            const response = await axios.get(`http://localhost:3000/user/get-one-user?email=${userEmail}`);
+            console.log(response.user.addresses);
+            setAddresses(response.user.addresses);
+        }
+        catch (error) {
+            console.log("Error fetching addresses", error);
+        }
+    }
+
     return (
-        <div className="cartContainerMain">
-            {cart.length > 0 ? (
-                cart.map((item) => (
-                    <CartComponent
-                        key={item._id}
-                        product={item}
-                        updateQuantity={updateQuantity}
-                    />
-                ))
-            ) : (
-                <p>Your cart is empty</p>
-            )}
-        </div>
+        <>
+            <div className="cartMain">
+                <div className="cartContents">
+                    {cart.length > 0 ? (
+                        cart.map((item) => (
+                            <CartComponent
+                                key={item._id}
+                                product={item}
+                                updateQuantity={updateQuantity}
+                            />
+                        ))
+                    ) : (
+                        <p>Your cart is empty</p>
+                    )}
+                </div>
+
+                <div className="cartCheckout">
+                    <h3> Your total: placeholderPrice </h3>
+                    <div className="cartCheckoutButtonDiv">
+                        <button className="cartCheckoutButton"onClick={() => {
+                            navigate("/selectaddress")
+                        }}> Select Address </button>
+                    </div>
+
+                </div>
+            </div>
+        </>
     );
 }
 

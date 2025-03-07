@@ -1,16 +1,35 @@
-/* Main Cart Component */
+.cartMain {
+    display: grid;
+    grid-template-columns: 1fr 0.5fr;
+}
 
-/* Bottom Total */
-
-.singularCartComponentTotal {
+.cartCheckout {
     border: 2px solid black;
-    width: 70%;
-    display: flex;
-    flex-direction: row-reverse;
-    margin-right: 20%;
-    padding: 20px;
+    padding: 10px;
+    width: 50%;
 }
 
-.singularCartComponentTotal p {
-    margin-right: 5%;
+.cartCheckout h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
 }
+
+.cartCheckoutButtonDiv {
+    /* border: 2px solid blue; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 20%;
+}
+
+.cartCheckoutButton {
+    border: 1px solid black;
+    font-weight: 500;
+    background-color: rgb(255, 255, 0);
+    border-radius: 24px;
+    padding: 10px;
+    cursor: pointer;
+}
+
