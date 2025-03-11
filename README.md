@@ -225,3 +225,9 @@ Created an order confirmation page, which
 - Displays the address the user selects to deliver to
 - Displays the total value of the cart
 - Has a Confirm Order button
+
+---
+
+### Milestone 25
+Created a backend endpoint that helps in placing an order.
+
