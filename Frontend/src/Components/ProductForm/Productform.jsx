@@ -74,10 +74,8 @@ export const ProductForm = () => {
 		try {
 
 			if (isEdit) {
-				const response = await axios.put(
-					`http://localhost:3000/product/edit-product/${id}`,
-					formData,
-					{
+				const response = await axios.put(`http://localhost:3000/product/edit-product/${id}`,
+					formData, {
 						headers: { "Content-Type": "multipart/form-data" },
 					}
 				);
@@ -88,11 +86,9 @@ export const ProductForm = () => {
 			}
 			else {
 				const res = await axios.post("http://localhost:3000/product/post-product", 
-				formData, {
-				headers: {
-					"Content-Type": "multipart/form-data",
-				},
-		
+					formData, {
+						headers: { "Content-Type": "multipart/form-data", 
+					},
 			});
 		
 

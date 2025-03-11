@@ -4,6 +4,7 @@ const connectDB = require('./src/Database/db');
 // const productModel = require('./src/Model/Productmodel');
 const userRouter = require('./src/Controllers/user');
 const productRouter = require('./src/Controllers/products');
+const orderRouter = require('./src/Controllers/order');
 const app = express();
 
 const cors = require("cors");
@@ -36,3 +37,4 @@ app.listen(PORT, async() => {
 
 app.use('/user', userRouter);
 app.use('/product', productRouter);
+app.use('/order', orderRouter);

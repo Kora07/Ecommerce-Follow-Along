@@ -1,0 +1,33 @@
+meta {
+  name: POST Request
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3000/order/post-order?email=jack123@gmail.com
+  body: json
+  auth: none
+}
+
+params:query {
+  email: jack123@gmail.com
+}
+
+body:json {
+  {
+    "productId": "67bfe07a9bef0e0289ae5d80",
+    "productName": "phone",
+    "quantity": 6,
+    "address": {
+      "country": "USA",
+      "city": "New York",
+      "address1": "123 Main Street",
+      "address2": "Apt 4B",
+      "zipCode": 10001,
+      "addressType": "Home"
+    },
+    "status": "Received",
+    "customerId": "679a02056516b4dce18a9be4"
+  }
+}
