@@ -231,3 +231,7 @@ Created an order confirmation page, which
 ### Milestone 25
 Created a backend endpoint that helps in placing an order.
 
+---
+
+### Milestone 26
+Created a backend endpoint that helps in getting all the orders of the user.
