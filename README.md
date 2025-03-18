@@ -247,4 +247,4 @@ Created a basic frontend page which display user's orders.
 Created a cancel order button. 
 - Button disappears if order is cancelled
 - Name of the product order has a line through to signify the cancellation, along with status being updated to, "Cancelled".
-- Created an extra delete method for the routes to delete the orders used for testing purposes.
+- Created an extra delete method for the order route to delete the orders used for testing purposes.
