@@ -4,7 +4,7 @@ const orderModel = require("../Model/orderSchema");
 
 const orderRouter = Router();
 
-orderRouter.get("/get-order", async (request, response) => {
+orderRouter.get("/get-orders", async (request, response) => {
     try {
         const info = await orderModel.find();
 

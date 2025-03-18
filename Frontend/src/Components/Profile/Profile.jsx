@@ -66,6 +66,11 @@ function Profile() {
                     </span>
 
                 </div>
+                
+                <div className="toMyOrders">
+                    <button onClick={() => {navigate("/orders")}}> View Orders </button>
+                </div>
+
             </div>
         </div>
     );

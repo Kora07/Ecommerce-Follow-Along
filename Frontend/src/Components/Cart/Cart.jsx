@@ -76,16 +76,16 @@ function Cart() {
     if (loading) return <p>Loading cart...</p>;
     if (error) return <p>{error}</p>;
 
-    const handleGetAddress = async () => {
-        try {
-            const response = await axios.get(`http://localhost:3000/user/get-one-user?email=${userEmail}`);
-            console.log(response.user.addresses);
-            setAddresses(response.user.addresses);
-        }
-        catch (error) {
-            console.log("Error fetching addresses", error);
-        }
-    }
+    // const handleGetAddress = async () => {
+    //     try {
+    //         const response = await axios.get(`http://localhost:3000/user/get-one-user?email=${userEmail}`);
+    //         console.log(response.user.addresses);
+    //         setAddresses(response.user.addresses);
+    //     }
+    //     catch (error) {
+    //         console.log("Error fetching addresses", error);
+    //     }
+    // }
 
     return (
         <>

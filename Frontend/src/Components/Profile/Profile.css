@@ -77,3 +77,8 @@
     background-color: rgba(215, 215, 215, 1); 
 }
 
+.toMyOrders button {
+    border: 2px solid black;
+    padding: 10px;
+    border-radius: 20px;
+}
