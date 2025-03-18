@@ -240,3 +240,11 @@ Created a backend endpoint that helps in getting all the orders of the user.
 
 ### Milesotne 27
 Created a basic frontend page which display user's orders.
+
+---
+
+### Milestone 28
+Created a cancel order button. 
+- Button disappears if order is cancelled
+- Name of the product order has a line through to signify the cancellation, along with status being updated to, "Cancelled".
+- Created an extra delete method for the routes to delete the orders used for testing purposes.
