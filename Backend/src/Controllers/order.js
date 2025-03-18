@@ -44,4 +44,50 @@ orderRouter.post("/post-order", async (request, response) => {
     }
 })
 
+orderRouter.put("/cancel-order/:id", async (request, response) => {
+    const { id } = request.params;
+
+    try {
+        const updatedOrder = await orderModel.findByIdAndUpdate(
+            id, { status: "Cancelled" }, { new: true }
+        );
+
+        if (!updatedOrder) {
+            return response.status(404).json({ message: "order not found" });
+        }
+
+        response.status(200).json({
+            message: "order cancelled successfully",
+            order: updatedOrder,
+        });
+    } 
+    catch (error) {
+        console.log(error);
+        response.status(500).json({
+            message: "internal server error",
+            error: error,
+        });
+    }
+});
+
+orderRouter.delete("/delete-order/:id", async (request, response) => {
+    const { id } = request.params;
+
+    try {
+        const deletedOrder = await orderModel.findByIdAndDelete(id);
+
+        response.status(200).json({
+            message: "order successfully deleted",
+            order: deletedOrder,
+        })
+    }
+    catch (error) {
+        response.status(500).json({
+            message: "internal server error",
+            error: error,
+        })
+    }
+} )
+
+
 module.exports = orderRouter;

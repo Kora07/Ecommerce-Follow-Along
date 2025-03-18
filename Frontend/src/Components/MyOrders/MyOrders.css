@@ -19,8 +19,21 @@
 .orderSingle {
     width: 25%;
     border: 2px solid black;
+    display: grid;
+    grid-template-columns: 1fr 0.2fr;;
     padding: 10px;
+}
 
+.orderCancelButton {
+    border: 1px solid black;
+    padding: 10px;
+    font-size: 12px;
+}
+
+.orderCancelButton:hover {
+    background-color: rgb(255, 52, 52);
+    transition: 0.3s;
+    color: white;
 }
 
 .orderSingle span {
