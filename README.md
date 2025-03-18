@@ -239,4 +239,4 @@ Created a backend endpoint that helps in getting all the orders of the user.
 ---
 
 ### Milesotne 27
-Created a basic frontend page to display user's orders.
+Created a basic frontend page which display user's orders.
