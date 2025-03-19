@@ -248,3 +248,8 @@ Created a cancel order button.
 - Button disappears if order is cancelled
 - Name of the product order has a line through to signify the cancellation, along with status being updated to, "Cancelled".
 - Created an extra delete method for the order route to delete the orders used for testing purposes.
+
+---
+
+### Milestone 29
+Created payment options in Order Confirmation page. Cash on Delivery & Paypal are available.
