@@ -253,3 +253,14 @@ Created a cancel order button.
 
 ### Milestone 29
 Created payment options in Order Confirmation page. Cash on Delivery & Paypal are available.
+
+---
+
+### Milestone 30
+
+
+
+---
+
+### Milestone 31
+Implemented Redux to store global states.
