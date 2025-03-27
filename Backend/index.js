@@ -6,13 +6,16 @@ const userRouter = require('./src/Controllers/user');
 const productRouter = require('./src/Controllers/products');
 const orderRouter = require('./src/Controllers/order');
 const app = express();
+app.use(express.json());
+
 
 const cors = require("cors");
 app.use(cors({ origin: "*" }));  // Allow all origins
 app.use('/product', express.static('uploads'));  // Serve images
 
+const cookieParser = require('cookie-parser')
+app.use(cookieParser())
 
-app.use(express.json());
 
 require('dotenv').config({
     path:'./src/Config/.env'

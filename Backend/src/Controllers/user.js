@@ -141,9 +141,18 @@ userRouter.post("/login", async (req, res) => {
                 if (err) {
                     return res.status(500).json({ message: "Error generating token" });
                 }
-                res.status(200).json({ token });
+                
+                res.cookie('authorization', token, {
+                    expires: new Date(Date.now() + 900000),
+                    httpOnly: true,
+                    domain:'.localhost.com',
+                })
+
+                console.log(token);
+                res.status(200).json({ token: token }); 
             });
-        } else {
+        } 
+        else {
             return res.status(400).json({ message: "Invalid password" });
         }
     });
