@@ -14,6 +14,7 @@ import Address from "./Components/Address/Address"
 import SelectAddress from './Components/Address/SelectAddress'
 import OrderConfirmation from './Components/OrderConfirmation/OrderConfirmation'
 import MyOrders from './Components/MyOrders/MyOrders'
+import PrivateRouter from './Components/Router/PrivateRouter'
 
 
 function App() {
@@ -25,7 +26,13 @@ function App() {
 				<Route path="/" element={<Home/>}/>
 				<Route path="/login" element={<Login/>}/>
 				<Route path="/signup" element={<Signup/>}/>
-				<Route path='/productform' element={<ProductForm/>}/>
+				
+				<Route path='/productform' element={
+					<PrivateRouter>
+						<ProductForm/>
+					</PrivateRouter> 
+				}/>
+
 				<Route path="/cart" element={<Cart />} />
 				<Route path="/cartcomponent" element={<CartComponent />} />
 				<Route path="profile" element={<Profile />} />

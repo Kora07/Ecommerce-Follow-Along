@@ -62,15 +62,34 @@ function OrderConfirmation() {
                     <input type="radio" name="orderPayment" id="paymentMethod" /> Cash on Delivery
                     <br />
                     <input type="radio" name="orderPayment" id="paymentMethod" />
-                    <PayPalScriptProvider options={{ clientId: "AWXtwaX2H_CfMmGXNi3FX_kmbWeUP8SgrVm-gNyC0dPi-beaoDETmSuAIjT4Pr1P4sW8a2eyAL-6S5dU" }}>
-                        <PayPalButtons style={{ layout: "horizontal"}} 
-                            createOrder={(data,actions)=>{
-                                return actions.order.create({purchase_units:[{amaount:{value:cartTotal.toFixed(2)}}]})
+
+                    <PayPalScriptProvider options={{ clientId: "YOUR_CLIENT_ID" }}>
+                        <PayPalButtons
+                            style={{ layout: "horizontal" }}
+                            createOrder={(data, actions) => {
+                            return actions.order.create({
+                                purchase_units: [{ amount: { value: cartTotal.toFixed(2) } }],
+                            });
                             }}
-                            onApprove={(data,actions)=>{
-                                return actions.order.capture()
-                            }}> Pay with paypal </PayPalButtons>
+                            onApprove={async (data, actions) => {
+                            try {
+                                const order1 = await actions.order.capture();
+                                const response = await axios.post(
+                                "http://localhost:3000/order/verify-payment",
+                                { orderId: order1.id }
+                                );
+
+                                if (response.data.success) {
+                                console.log("Payment successful!");
+                                }
+                            } 
+                            catch (error) {
+                                console.error("Payment verification failed:", error);
+                            }
+                            }}
+                        />
                     </PayPalScriptProvider>
+
                         
                     
                 </div>

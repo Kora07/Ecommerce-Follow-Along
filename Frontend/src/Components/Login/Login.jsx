@@ -1,18 +1,25 @@
 import { useState } from 'react';
 import './login.css';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux'
+import { loginuser } from '../Redux/action'
 
 export default function Example() {
 
 	const [email, setEmail] = useState();
 	const [password, setPassword] = useState();
 
+	const dispatch=useDispatch()
 	const navigate = useNavigate();
+
+	const handleSubmmit = () => {
+		dispatch(loginuser({ email, password }))
+	}
 
 	return (
 		<>
 			<div className="login-container">
-				<form className="login-form">
+				<form className="login-form" onSubmit={handleSubmmit}>
 					<h1> Login </h1>
 					<label className="login-email"> Email </label>
 					<input type="email" placeholder="Enter your email" onChange={(e) => {
