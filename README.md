@@ -261,5 +261,5 @@ Implemented online payment through Paypal API.
 
 ---
 
-### Milestone 31
+### Milestone 31 and 32
 Implemented Redux to store global states.
