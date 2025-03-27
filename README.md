@@ -257,8 +257,7 @@ Created payment options in Order Confirmation page. Cash on Delivery & Paypal ar
 ---
 
 ### Milestone 30
-
-
+Implemented online payment through Paypal API.
 
 ---
 
