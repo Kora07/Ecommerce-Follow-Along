@@ -134,12 +134,16 @@ productRouter.delete('/delete-product/:id', async (req,res)=>{
         const { id } = req.params;
         const existingProduct = await productModel.findById(id);
 
-        if(!existingProduct){
-            res.status(400).json({message:"product does not exist"})
+        if(!existingProduct) {
+            res.status(400).json({
+                message:"product does not exist"
+            })
         }
-
         await existingProduct.deleteOne()
 
+        res.status(200).json({
+            message: "product successfully deleted",
+        })
     }
     catch(error) {
         console.log('error in delete')

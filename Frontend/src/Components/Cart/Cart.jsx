@@ -3,6 +3,7 @@ import CartComponent from "./CartComponent";
 import axios from "axios";
 import "./Cart.css"
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Cart() {
     const [cart, setCart] = useState([]);
@@ -10,7 +11,7 @@ function Cart() {
     const [selectedAddress, setSelectedAddress] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const userEmail = "jack123@gmail.com";
+    const { email } = useSelector((state) => state.auth.user) || {};
 
     const navigate = useNavigate();
 
@@ -18,7 +19,7 @@ function Cart() {
     useEffect(() => {
         const fetchCart = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/product/get-cart?email=${userEmail}`);
+                const response = await axios.get(`http://localhost:3000/product/get-cart?email=${email}`);
                 console.log("API Response:", response.data);
 
                 if (Array.isArray(response.data.userCart)) {
@@ -38,7 +39,7 @@ function Cart() {
         
         const handleGetAddress = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/user/get-one-user?email=${userEmail}`);
+                const response = await axios.get(`http://localhost:3000/user/get-one-user?email=${email}`);
                 console.log("Addresses Fetched: ");
                 setAddresses(response.data.user);
                 console.log(addresses);
@@ -59,13 +60,13 @@ function Cart() {
 
         try {
             await axios.put("http://localhost:3000/product/edit-cart", {
-                email: userEmail,
+                email: email,
                 productId,
                 quantity: newQuantity,
             });
 
             // Fetch updated cart after update
-            const response = await axios.get(`http://localhost:3000/product/get-cart?email=${userEmail}`);
+            const response = await axios.get(`http://localhost:3000/product/get-cart?email=${email}`);
             setCart(response.data.userCart);
         } 
         catch (error) {
@@ -76,16 +77,16 @@ function Cart() {
     if (loading) return <p>Loading cart...</p>;
     if (error) return <p>{error}</p>;
 
-    const handleGetAddress = async () => {
-        try {
-            const response = await axios.get(`http://localhost:3000/user/get-one-user?email=${userEmail}`);
-            console.log(response.user.addresses);
-            setAddresses(response.user.addresses);
-        }
-        catch (error) {
-            console.log("Error fetching addresses", error);
-        }
-    }
+    // const handleGetAddress = async () => {
+    //     try {
+    //         const response = await axios.get(`http://localhost:3000/user/get-one-user?email=${email}`);
+    //         console.log(response.user.addresses);
+    //         setAddresses(response.user.addresses);
+    //     }
+    //     catch (error) {
+    //         console.log("Error fetching addresses", error);
+    //     }
+    // }
 
     return (
         <>

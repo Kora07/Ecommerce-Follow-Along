@@ -5,7 +5,11 @@ meta {
 }
 
 get {
-  url: http://localhost:3000/user/get-one-user
+  url: http://localhost:3000/user/get-one-user?email=jack123@gmail.com
   body: none
   auth: none
+}
+
+params:query {
+  email: jack123@gmail.com
 }

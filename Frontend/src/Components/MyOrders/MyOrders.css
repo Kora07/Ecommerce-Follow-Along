@@ -1,0 +1,45 @@
+.ordersTitle {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-left: 10px;
+}
+
+.ordersPageContainer {
+    padding: 10px;
+    margin-left: 10px;
+    display: grid;
+    gap: 10px;
+}
+
+.ordersPageContainer h2 {
+    font-size: 1.4rem;
+    font-weight: 650;
+}
+
+.orderSingle {
+    width: 25%;
+    border: 2px solid black;
+    display: grid;
+    grid-template-columns: 1fr 0.2fr;;
+    padding: 10px;
+}
+
+.orderCancelButton {
+    border: 1px solid black;
+    padding: 10px;
+    font-size: 12px;
+}
+
+.orderCancelButton:hover {
+    background-color: rgb(255, 52, 52);
+    transition: 0.3s;
+    color: white;
+}
+
+.orderSingle span {
+    font-weight: 600;
+}
+
+#orderAddress {
+    margin-left: 20px;
+}

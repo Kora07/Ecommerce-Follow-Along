@@ -1,0 +1,40 @@
+.orderMain {
+    display: grid;
+    grid-template-columns: 1fr 0.5fr;
+    padding: 10px;
+}
+
+.orderItem {
+    /* border: 2px solid black; */
+    padding: 10px;
+}
+
+.orderCheckout {
+    border: 2px solid black;
+    padding: 10px;
+    width: 50%;
+}
+
+.orderCheckout h3 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+}
+
+.orderCheckoutButtonDiv {
+    /* border: 2px solid blue; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 20%;
+}
+
+.orderCheckoutButton {
+    border: 1px solid black;
+    font-weight: 500;
+    background-color: rgb(255, 255, 0);
+    border-radius: 24px;
+    padding: 10px;
+    cursor: pointer;
+}

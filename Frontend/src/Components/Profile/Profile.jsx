@@ -2,17 +2,24 @@ import React, { useEffect, useState } from "react";
 import "./Profile.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";  // Import useSelector to access Redux store
 
 function Profile() {
-    const userEmail = "jack123@gmail.com";
+    const user = useSelector((state) => state.auth.user);  // Get user data from Redux store
     const [userData, setUserData] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
+        if (!user) {
+            // If the user is not logged in, redirect to the login page
+            navigate("/login");
+            return;
+        }
+
         const getUserInfo = async () => {
             try {
                 const response = await axios.get("http://localhost:3000/user/get-one-user", {
-                    params: { email: userEmail }
+                    params: { email: user.email }
                 });
 
                 setUserData(response.data.user); // Assuming response.data.user contains user info
@@ -23,7 +30,11 @@ function Profile() {
         };
 
         getUserInfo();
-    }, []); // Empty dependency array ensures it runs once on mount
+    }, [user, navigate]); // Add user as a dependency to ensure it runs when user is available
+
+    if (!user) {
+        return <p>Loading...</p>; // or redirect to login if user is not logged in
+    }
 
     return (
         <div className="profileContainer">
@@ -50,8 +61,6 @@ function Profile() {
                     </div>
 
                     <span className="profileAddressSpecific">
-
-
                         {userData?.addresses?.length > 0 ? (
                             userData.addresses.map((addr, index) => (
                                 <div key={index}>
@@ -66,6 +75,11 @@ function Profile() {
                     </span>
 
                 </div>
+
+                <div className="toMyOrders">
+                    <button onClick={() => {navigate("/orders")}}> View Orders </button>
+                </div>
+
             </div>
         </div>
     );

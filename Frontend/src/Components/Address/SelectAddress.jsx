@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from "axios"
+import { useNavigate } from "react-router-dom";
 import "./SelectAddress.css"
 
 function SelectAddress() {
@@ -7,6 +8,7 @@ function SelectAddress() {
     const userEmail = "jack123@gmail.com";
     const [addresses, setAddresses] = useState([]);
     const [selectedAddress, setSelectedAddress] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const handleGetAddress = async () => {
@@ -24,6 +26,21 @@ function SelectAddress() {
         handleGetAddress();
     }, []);
 
+    const handleProceed = () => {
+        if (selectedAddress === null || selectedAddress === undefined) {
+          alert("Please select an address.");
+          return;
+        }
+      
+        const addressToSend = addresses.addresses[selectedAddress];
+        navigate("/orderconfirmation", {
+          state: {
+            selectedAddress: addressToSend,
+          },
+        });
+      };
+      
+
 
     return (
         <>
@@ -40,7 +57,7 @@ function SelectAddress() {
                                         name="selectedAddress"
                                         value={index}
                                         id={`address-${index}`}
-                                        onChange={() => setSelectedAddress(index)} // Handle selection
+                                        onChange={() => setSelectedAddress(index)}
                                     />
                                     <label htmlFor={`address-${index}`}>
                                         <h3>{addr.addressType}:</h3>
@@ -56,7 +73,7 @@ function SelectAddress() {
                 </div>
 
                 <div className="proceedFromAddress">
-                    <button className="proceedToCheckoutButton"> Proceed to Checkout </button>
+                    <button className="proceedToCheckoutButton" onClick={(handleProceed)}> Proceed to Checkout </button>
                 </div>
                 
             </div>

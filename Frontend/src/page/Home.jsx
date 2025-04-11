@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Productcard } from '../Components/Productcard'
+import { Productcard } from '../Components/Products/Productcard'
 
 // const productdetails=[
 //     {
