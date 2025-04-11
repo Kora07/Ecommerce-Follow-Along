@@ -14,7 +14,7 @@ Concepts covered in this project are :
 - Basics of database schema design
 - Role of authentication in web applications
 
----
+#
 
 ### Login.jsx:
 
@@ -35,13 +35,13 @@ The doc class slightly scales up a checkbox input element using transform: scale
 The main entry point for the React app where it renders the App component inside a StrictMode wrapper for development.
 It uses BrowserRouter from react-router-dom to handle routing within the app, ensuring the navigation and route management are set up for the application.
 
----
+#
 
 ### File structure and MongoDB
 
 Created a file structure in the Backend folder, and connected a MongoDB server to the project.
 
----
+#
 
 ### .env 
 
@@ -55,12 +55,12 @@ Connects the index.js file to MongoDB.
 
 Handles errors that occur connected to the server.
 
----
+#
 
 ### Milestone 1
 Setup project and created a Github Repository for version control.
 
----
+#
 
 ### Milestone 2
 - Created a structured folder hierarchy for the project.
@@ -68,7 +68,7 @@ Setup project and created a Github Repository for version control.
 - Configured Tailwind CSS for streamlined styling.
 - Built a functional and styled Login Page for the frontend.
 
----
+#
 
 ### Milestone 3
 
@@ -77,7 +77,7 @@ Setup project and created a Github Repository for version control.
 - Connected application to MongoDB to store and manage data.
 - Implemented basic error handling to ensure your server runs smoothly.
 
----
+#
 
 ### Milestone 4
 
@@ -85,7 +85,7 @@ Setup project and created a Github Repository for version control.
 - Created a User Controller.
 - Enabled and configured Multer.
 
----
+#
 
 ### Milestone 5
 
@@ -97,41 +97,41 @@ This page allows users to provide their information, which will be sent to the s
 
 Form Validation ensures that the information users provide is correct and in the right format.
 
----
+#
 
 ### Milestone 6
 
 Created a backend endpoint for the Signup page to store all user data securely, by encrypting the password and storing the user's data in the database.
 
---- 
+# 
 
 ### Milestone 7
 
 Created system for validating user credentials, and verifying the encrypted password stored in the database.
 
----
+#
 
 ### Milestone 8
 
 Designed and created a card component to display products effectively.
 
----
+#
 
 ### Milestone 9:
 Created a form for products that takes multiple product images as input.
 
----
+#
 
 ### Milestone 10:
 Built a POST endpoint to receive product data.
 Validated and saved the product details to MongoDB.
 
----
+#
 
 ### Milestone 11:
 Created an endpoint that will send data from extract and send data from MongoDB, and a function to display all data dynamically passed to product card component.
 
----
+#
 
 ### Milestone 12
 
@@ -148,19 +148,19 @@ This application includes a form for submitting product details, including an im
 7. Tag: A label or keyword to describe the product.
 8. Image: One or more images to showcase the product.
 
----
+#
 
 ### Milestone 13
 
 Created an endpoint that updates the existing data in MongoDB.
 
----
+#
 
 ### Milestone 14
 
 Created an endpoint that deletes data from MongoDB.
 
----
+#
 
 ### Milestone 15
 Created a Navbar component that is used in all pages and contains links to the following:
@@ -170,49 +170,104 @@ Created a Navbar component that is used in all pages and contains links to the f
 - Product Form to add products
 - Cart
 
----
+#
 
 ### Milestone 16
 - Created a new page to display each product
 - Created quantity and add to card buttons
 
----
+#
 
 ### Milestone 17
 - Edited user schema to store cart products.
 - Created an endpoint to receive product details and store them in the database. 
 
----
+#
 
 ### Milestone 18
 - Created an endpoint to receive requests from the cart page.
 - Created a backend endpoint to fetch all the products inside the cart with user's email.
 
----
+#
 
 ### Milestone 19
 - Created a cart page that displays the products inside the cart using the get-cart endpoint.
 - Added an option to increase and decrease quantity using + and - buttons for each product.
 - Created an endpoint to increase and decrease the quantity.
 
----
+#
 
 ### Milestone 20
 - Create a frontend profile page that displays profile photo, name, email and addresses.
 
----
+#
 
 ### Milestone 21
 - Created a frontend form that takes address (country, city, address1, address2, zip code, address) as input.
 
----
+#
 
 ### Milestone 22
 - Created a backend endpoint that stores the address given through the form in the user profile in the database.
 
----
+#
 
 ### Milestone 23
 - Created a placeorder button inside the cart page which navigates to select address page when clicked.
 - Created a select address page that displays all the available addresses and an option to select one address.
 - Created a backend endpoint that will send the addresses of the user.
+
+# 
+
+### Milestone 24
+Created an order confirmation page, which 
+- Display all the products that were in cart
+- Displays the address the user selects to deliver to
+- Displays the total value of the cart
+- Has a Confirm Order button
+
+#
+
+### Milestone 25
+Created a backend endpoint that helps in placing an order.
+
+#
+
+### Milestone 26
+Created a backend endpoint that helps in getting all the orders of the user.
+
+#
+
+### Milesotne 27
+Created a basic frontend page which display user's orders.
+
+#
+
+### Milestone 28
+Created a cancel order button. 
+- Button disappears if order is cancelled
+- Name of the product order has a line through to signify the cancellation, along with status being updated to, "Cancelled".
+- Created an extra delete method for the order route to delete the orders used for testing purposes.
+
+#
+
+### Milestone 29
+Created payment options in Order Confirmation page. Cash on Delivery & Paypal are available.
+
+#
+
+### Milestone 30
+Implemented online payment through Paypal API.
+
+#
+
+### Milestone 31 and 32
+Implemented Redux to store global states.
+
+#
+
+### Milestone 33
+Created a JWT token and stored it in a cookie.
+
+#
+
