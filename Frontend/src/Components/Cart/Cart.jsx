@@ -4,6 +4,7 @@ import axios from "axios";
 import "./Cart.css"
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { jwtDecode } from "jwt-decode"
 
 function Cart() {
     const [cart, setCart] = useState([]);
@@ -11,7 +12,14 @@ function Cart() {
     const [selectedAddress, setSelectedAddress] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const { email } = useSelector((state) => state.auth.user) || {};
+
+    const user = useSelector((state) => state.auth.user);
+    console.log("User email:", user);
+    
+    const mainDecoder = jwtDecode(user);
+    console.log("Sub decode: ", mainDecoder.email);
+
+    const userEmail = mainDecoder.email;
 
     const navigate = useNavigate();
 
@@ -19,7 +27,7 @@ function Cart() {
     useEffect(() => {
         const fetchCart = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/product/get-cart?email=${email}`);
+                const response = await axios.get(`http://localhost:3000/product/get-cart?email=${userEmail}`);
                 console.log("API Response:", response.data);
 
                 if (Array.isArray(response.data.userCart)) {
@@ -39,7 +47,7 @@ function Cart() {
         
         const handleGetAddress = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/user/get-one-user?email=${email}`);
+                const response = await axios.get(`http://localhost:3000/user/get-one-user?email=${userEmail}`);
                 console.log("Addresses Fetched: ");
                 setAddresses(response.data.user);
                 console.log(addresses);
@@ -51,6 +59,7 @@ function Cart() {
         
         fetchCart();
         handleGetAddress();
+        console.log(cart)
     }, []);
 
     console.log("Cart State:", cart);
@@ -60,13 +69,13 @@ function Cart() {
 
         try {
             await axios.put("http://localhost:3000/product/edit-cart", {
-                email: email,
+                email: userEmail,
                 productId,
                 quantity: newQuantity,
             });
 
             // Fetch updated cart after update
-            const response = await axios.get(`http://localhost:3000/product/get-cart?email=${email}`);
+            const response = await axios.get(`http://localhost:3000/product/get-cart?email=${userEmail}`);
             setCart(response.data.userCart);
         } 
         catch (error) {
