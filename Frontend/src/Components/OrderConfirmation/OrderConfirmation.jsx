@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./OrderConfirmation.css";
+import { useSelector } from "react-redux";
+import { jwtDecode } from "jwt-decode"
 import { useLocation, useNavigate } from "react-router-dom";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
@@ -8,7 +10,13 @@ function OrderConfirmation() {
     const [cart, setCart] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const userEmail = "jack123@gmail.com";
+    const user = useSelector((state) => state.auth.user);
+    console.log("User email:", user);
+    
+    const mainDecoder = jwtDecode(user);
+    console.log("Sub decode: ", mainDecoder.email);
+
+    const userEmail = mainDecoder.email;
     
     const navigate = useNavigate();
     const location = useLocation();

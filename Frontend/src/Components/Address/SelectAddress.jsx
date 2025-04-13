@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { jwtDecode } from "jwt-decode"
 import "./SelectAddress.css";
 
 function SelectAddress() {
-    const userEmail = "jack123@gmail.com";
+    const user = useSelector((state) => state.auth.user);
+    console.log("User email:", user);
+    
     const [addresses, setAddresses] = useState([]);
     const [selectedAddress, setSelectedAddress] = useState(null); // It should start as null to indicate nothing is selected
     const navigate = useNavigate();
@@ -12,7 +16,7 @@ function SelectAddress() {
     useEffect(() => {
         const handleGetAddress = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/user/get-one-user?email=${userEmail}`);
+                const response = await axios.get(`http://localhost:3000/user/get-one-user?email=${user}`);
                 console.log("Addresses Fetched: ");
                 setAddresses(response.data.user?.addresses || []); // Fix: Only set the addresses
             }
