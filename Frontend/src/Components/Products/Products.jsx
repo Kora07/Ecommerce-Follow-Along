@@ -12,6 +12,7 @@ const Products = () => {
                 const response = await axios.get('http://localhost:3000/product/get-product');
                 if (response.status === 200) {
                     setProducts(response.data.info);
+                    console.log("Products: ", response.data.info);
                 }
             } catch (error) {
                 console.error('Error fetching products:', error);
@@ -34,8 +35,8 @@ const Products = () => {
             ) : (
                 products.map((product) => (
                     <Productcard
-                        key={product.id} // Ensure this is unique
-                        productId={product.id}
+                        key={product._id} // Ensure this is unique
+                        productId={product._id}
                         image={product.images} // Assuming images is an array of URLs
                         name={product.name}
                         price={product.price}

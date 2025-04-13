@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './login.css';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
-import { loginUser } from "../../redux/action" 
+import { loginUser } from "../../redux/action"
+import { useSelector } from "react-redux";
 
 export default function Login() {
 
@@ -13,18 +14,20 @@ export default function Login() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
+	const user = useSelector((state) => state.auth.user);
+
+	useEffect(() => {
+		if (user) {
+			navigate("/home");
+		}
+	}, [user, navigate]);
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setError(null);
-
-		try {
-			await dispatch(loginUser({ email, password }));
-			navigate("/home");
-		}
-		catch (error) {
-			setError("Login failed. Please try again.");
-		}
-	}
+		await dispatch(loginUser({ email, password }));
+	};
+	
 
 	return (
 		<>

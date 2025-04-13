@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema({
 			addressType: { type: String },
 		}
 	],
-	selectedAddress: { type: Number, default: -1 },
+	selectedAddress: { type: Number, default: 0 },
 	role: {
 		type: String,
 		default: "user",

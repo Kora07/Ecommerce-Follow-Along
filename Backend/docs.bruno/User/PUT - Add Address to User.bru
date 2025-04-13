@@ -5,11 +5,25 @@ meta {
 }
 
 put {
-  url: http://localhost:3000/user/edit-address?email=${userEmail}
-  body: none
+  url: http://localhost:3000/user/edit-address?email=jasonsucks@gmail.com
+  body: json
   auth: inherit
 }
 
 params:query {
-  email: ${userEmail}
+  email: jasonsucks@gmail.com
+}
+
+body:json {
+  {
+      "address": {
+          "country": "USA",
+          "city": "New York",
+          "address1": "123 Street",
+          "address2": "Apt 4B",
+          "zipCode": "10001",
+          "addressType": "Home"
+      }
+  }
+  
 }

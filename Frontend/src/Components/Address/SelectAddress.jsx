@@ -1,13 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import axios from "axios"
+import React, { useState, useEffect } from 'react';
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "./SelectAddress.css"
+import "./SelectAddress.css";
 
 function SelectAddress() {
-
     const userEmail = "jack123@gmail.com";
     const [addresses, setAddresses] = useState([]);
-    const [selectedAddress, setSelectedAddress] = useState([]);
+    const [selectedAddress, setSelectedAddress] = useState(null); // It should start as null to indicate nothing is selected
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -15,32 +14,29 @@ function SelectAddress() {
             try {
                 const response = await axios.get(`http://localhost:3000/user/get-one-user?email=${userEmail}`);
                 console.log("Addresses Fetched: ");
-                setAddresses(response.data.user);
-                console.log(addresses);
+                setAddresses(response.data.user?.addresses || []); // Fix: Only set the addresses
             }
             catch (error) {
                 console.log("Error fetching addresses", error);
             }
         }
-        
+
         handleGetAddress();
     }, []);
 
     const handleProceed = () => {
-        if (selectedAddress === null || selectedAddress === undefined) {
-          alert("Please select an address.");
-          return;
+        if (selectedAddress === null) {
+            alert("Please select an address.");
+            return;
         }
-      
-        const addressToSend = addresses.addresses[selectedAddress];
-        navigate("/orderconfirmation", {
-          state: {
-            selectedAddress: addressToSend,
-          },
-        });
-      };
-      
 
+        const addressToSend = addresses[selectedAddress]; // Using the index of the selected address
+        navigate("/orderconfirmation", {
+            state: {
+                selectedAddress: addressToSend,
+            },
+        });
+    };
 
     return (
         <>
@@ -49,15 +45,15 @@ function SelectAddress() {
                     <h2> Select Your Address: </h2>
 
                     <div className="cartSelectAddress">
-                        {addresses?.addresses?.length > 0 ? (
-                            addresses.addresses.map((addr, index) => (
+                        {addresses.length > 0 ? (
+                            addresses.map((addr, index) => (
                                 <div key={index}>
                                     <input
                                         type="radio"
                                         name="selectedAddress"
                                         value={index}
                                         id={`address-${index}`}
-                                        onChange={() => setSelectedAddress(index)}
+                                        onChange={() => setSelectedAddress(index)} // Update the index
                                     />
                                     <label htmlFor={`address-${index}`}>
                                         <h3>{addr.addressType}:</h3>
@@ -73,12 +69,12 @@ function SelectAddress() {
                 </div>
 
                 <div className="proceedFromAddress">
-                    <button className="proceedToCheckoutButton" onClick={(handleProceed)}> Proceed to Checkout </button>
+                    <button className="proceedToCheckoutButton" onClick={handleProceed}> Proceed to Checkout </button>
                 </div>
                 
             </div>
         </>
-    )
+    );
 }
 
-export default SelectAddress
+export default SelectAddress;

@@ -2,20 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
+import { jwtDecode } from "jwt-decode"
 
 export const Productcard = ({ image = [], name, price, description, productId }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    // const userEmail = useSelector((state) => state.user?.email); // Ensure user email is safely accessed
+    // const userEmail = useSelector((state) => state.user?.email);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const user = useSelector((state) => state.auth.user);
-    const userEmail = user?.email; // Safely access the email
     
+    console.log("User email from Redux:", user);
+    
+    const mainDecoder = jwtDecode(user);
+    console.log("Sub decode: ", mainDecoder.email);
 
-
-    console.log("User email from Redux:", userEmail); // Debug the user email
-
+    const userEmail = mainDecoder.email;
+    
     // Automatic image slider for product images
     useEffect(() => {
         if (image.length > 0) {
@@ -37,7 +40,7 @@ export const Productcard = ({ image = [], name, price, description, productId })
         }
 
         try {
-            const response = await axios.post('http://localhost:3000/products/post-cart', {
+            const response = await axios.post('http://localhost:3000/product/post-cart', {
                 email: userEmail,
                 productId,
                 productname: name,

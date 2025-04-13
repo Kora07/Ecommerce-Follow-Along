@@ -27,28 +27,36 @@ userRouter.get("/get-user", async (request, response) => {
     }
 })
 
-userRouter.get("/get-one-user", async (request, response) => {
-    
-    const userEmail = request.query.email;
-
-    if (!userEmail) {
-        return response.status(400).json({ message: "Email is required" });
-    }
-
+userRouter.get('/get-one-user', async (req, res) => {
     try {
-        const userInfo = await userModel.findOne({ email: userEmail });
+        const { email } = req.query;
 
-        if (!userInfo) {
-            return response.status(404).json({ message: "User not found" });
+        if (!email) {
+            return res.status(400).json({ 
+                message: 'Email is required!' 
+            });
         }
 
-        response.status(200).json({
-            message: "User successfully retrieved",
-            user: userInfo
-        });
-    } catch (error) {
-        console.error("Error fetching user:", error);
-        response.status(500).json({ message: "Internal Server Error" });
+        let decodedEmail = email;
+        try {
+            decodedEmail = jwt.verify(email, secret);
+        } 
+        catch (error) {
+            console.error("Error decoding JWT:", error);
+        }
+
+        const user = await userModel.findOne({ email: decodedEmail.email });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found!' });
+        }
+
+        const { password, ...userDetails } = user.toObject();
+        res.json({ user: userDetails });
+    } 
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
     }
 });
 

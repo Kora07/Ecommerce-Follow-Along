@@ -2,38 +2,36 @@ import React, { useEffect, useState } from "react";
 import "./Profile.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";  // Import useSelector to access Redux store
+import { useSelector } from "react-redux";
 
 function Profile() {
-    const user = useSelector((state) => state.auth.user);  // Get user data from Redux store
+    const user = useSelector((state) => state.auth.user);
     const [userData, setUserData] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
         if (!user) {
-            // If the user is not logged in, redirect to the login page
             navigate("/login");
             return;
         }
 
         const getUserInfo = async () => {
             try {
-                const response = await axios.get("http://localhost:3000/user/get-one-user", {
-                    params: { email: user.email }
-                });
-
-                setUserData(response.data.user); // Assuming response.data.user contains user info
-                console.log("User information successfully retrieved", response.data.user);
+                console.log("User: ", user)
+                const response = await axios.get(`http://localhost:3000/user/get-one-user?email=${user}`);
+                console.log(response.data);
+                setUserData(response.data.user);
             } catch (error) {
-                console.error("Error in retrieving user information", error);
+                console.error("Error in retrieving user information:", error.response?.data || error.message);
             }
         };
+        
 
         getUserInfo();
-    }, [user, navigate]); // Add user as a dependency to ensure it runs when user is available
+    }, [user, navigate]);
 
     if (!user) {
-        return <p>Loading...</p>; // or redirect to login if user is not logged in
+        return <p>Loading...</p>;
     }
 
     return (
