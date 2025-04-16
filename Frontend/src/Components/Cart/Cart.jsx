@@ -65,7 +65,14 @@ function Cart() {
     console.log("Cart State:", cart);
 
     const updateQuantity = async (productId, newQuantity) => {
-        if (newQuantity <= 0) return;
+        if (newQuantity == 0) {
+            try {
+                
+            }
+            catch (error) {
+                console.log(error);
+            }
+        };
 
         try {
             await axios.put("http://localhost:3000/product/edit-cart", {

@@ -240,51 +240,50 @@ productRouter.get("/get-cart", async(req, res)=>{
 })
 
 productRouter.put('/edit-cart', async (request, response) => {
-
     const { email, productId, quantity } = request.body;
-    
-    try {
-        if (!email || !productId || quantity == undefined || quantity <= 0) {
-            return response.status(404).json({
-                message: "missing fields"
-            })
-        }
 
-        const findUser = await userModel.findOne({ email: email });
-        
-        if (!findUser) {
-            return response.status(404).json({
-                message: "user not found"
-            });            
-        }
-    
-        const findProduct = await productModel.findOne({_id:productId});
-        
-        if (!findProduct || findProduct.stock <= 0) {
-            return response.status(404).json({
-                message: "product not available"
-            })
-        }
-    
-        const findCartProduct = findUser.cart.find(item => String(item.productId) === String(productId));
-    
-        if (!findCartProduct) {
-            return response.status(404).json({
-                message: "product not found"
+    try {
+        if (!email || !productId || quantity === undefined) {
+            return response.status(400).json({
+                message: "Missing fields"
             });
         }
 
-        findCartProduct.quantity = quantity;
+        const findUser = await userModel.findOne({ email });
+        if (!findUser) {
+            return response.status(404).json({ message: "User not found" });
+        }
+
+        const findProduct = await productModel.findOne({ _id: productId });
+        if (!findProduct || findProduct.stock <= 0) {
+            return response.status(404).json({ message: "Product not available" });
+        }
+
+        const findCartProduct = findUser.cart.find(
+            item => String(item.productId) === String(productId)
+        );
+
+        if (!findCartProduct) {
+            return response.status(404).json({ message: "Product not found in cart" });
+        }
+
+        if (quantity <= 0) {
+            // Remove from cart
+            findUser.cart = findUser.cart.filter(
+                item => String(item.productId) !== String(productId)
+            );
+        } else {
+            // Update quantity
+            findCartProduct.quantity = quantity;
+        }
+
         await findUser.save({ validateBeforeSave: false });
-        
-        return response.status(200).json({
-            message: "cart successfully edited"
-        })
-    }
-    catch (error) {
+
+        return response.status(200).json({ message: "Cart successfully edited" });
+    } catch (error) {
         console.log(error);
-        return response.status(500).json({ message: "server error", error: error.message });
-    }    
-})
+        return response.status(500).json({ message: "Server error", error: error.message });
+    }
+});
 
 module.exports = productRouter;
