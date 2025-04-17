@@ -1,19 +1,40 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './login.css';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../redux/action"
+import { useSelector } from "react-redux";
 
-export default function Example() {
+export default function Login() {
 
 	const [email, setEmail] = useState();
 	const [password, setPassword] = useState();
+	const [error, setError] = useState(null);
 
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
+	const user = useSelector((state) => state.auth.user);
+
+	useEffect(() => {
+		if (user) {
+			navigate("/home");
+		}
+	}, [user, navigate]);
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		setError(null);
+		await dispatch(loginUser({ email, password }));
+	};
+	
 
 	return (
 		<>
 			<div className="login-container">
-				<form className="login-form">
+				<form className="login-form" onSubmit={handleSubmit}>
 					<h1> Login </h1>
+					{error && <p style={{ color: 'red' }}>{error}</p>}
 					<label className="login-email"> Email </label>
 					<input type="email" placeholder="Enter your email" onChange={(e) => {
 						setEmail(e.target.value)

@@ -1,0 +1,29 @@
+meta {
+  name: PUT - Add Address to User
+  type: http
+  seq: 5
+}
+
+put {
+  url: http://localhost:3000/user/edit-address?email=jasonsucks@gmail.com
+  body: json
+  auth: inherit
+}
+
+params:query {
+  email: jasonsucks@gmail.com
+}
+
+body:json {
+  {
+      "address": {
+          "country": "USA",
+          "city": "New York",
+          "address1": "123 Street",
+          "address2": "Apt 4B",
+          "zipCode": "10001",
+          "addressType": "Home"
+      }
+  }
+  
+}

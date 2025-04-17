@@ -2,10 +2,11 @@ import React, { useState } from 'react'
 import "./Address.css"
 import axios from "axios"
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 function Address() {
 
-    const userEmail = "johndoe@gmail.com";
+    const { email } = useSelector((state) => state.auth.user) || {};
     const navigate = useNavigate();
 
     const [address, setAddress] = useState({
@@ -18,7 +19,7 @@ function Address() {
     });
 
     const handleAddAddress = async () => {
-        await axios.put(`http://localhost:3000/user/edit-address?email=${userEmail}`, {
+        await axios.put(`http://localhost:3000/user/edit-address?email=${email}`, {
             address: address,
         })
         .then((response) => {

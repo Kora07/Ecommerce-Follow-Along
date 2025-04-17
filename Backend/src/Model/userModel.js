@@ -27,6 +27,7 @@ const userSchema = new mongoose.Schema({
 			addressType: { type: String },
 		}
 	],
+	selectedAddress: { type: Number, default: 0 },
 	role: {
 		type: String,
 		default: "user",
@@ -61,5 +62,5 @@ const userSchema = new mongoose.Schema({
 	resetPasswordTime: Date,
 });
 
-const userModel = mongoose.model('User', userSchema);
+const userModel = mongoose.models.User || mongoose.model('User', userSchema);
 module.exports = userModel;

@@ -27,28 +27,36 @@ userRouter.get("/get-user", async (request, response) => {
     }
 })
 
-userRouter.get("/get-one-user", async (request, response) => {
-    
-    const userEmail = request.query.email; // Accessing the email properly
-
-    if (!userEmail) {
-        return response.status(400).json({ message: "Email is required" });
-    }
-
+userRouter.get('/get-one-user', async (req, res) => {
     try {
-        const userInfo = await userModel.findOne({ email: userEmail });
+        const { email } = req.query;
 
-        if (!userInfo) {
-            return response.status(404).json({ message: "User not found" });
+        if (!email) {
+            return res.status(400).json({ 
+                message: 'Email is required!' 
+            });
         }
 
-        response.status(200).json({
-            message: "User successfully retrieved",
-            user: userInfo // Change "users" to "user" since it's singular
-        });
-    } catch (error) {
-        console.error("Error fetching user:", error);
-        response.status(500).json({ message: "Internal Server Error" });
+        let decodedEmail = email;
+        try {
+            decodedEmail = jwt.verify(email, secret);
+        } 
+        catch (error) {
+            console.error("Error decoding JWT:", error);
+        }
+
+        const user = await userModel.findOne({ email: decodedEmail.email });
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found!' });
+        }
+
+        const { password, ...userDetails } = user.toObject();
+        res.json({ user: userDetails });
+    } 
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
     }
 });
 
@@ -90,18 +98,17 @@ userRouter.post("/create-user", upload.single('file'), async (req, res, next) =>
 
 userRouter.put("/edit-address", async (request, response) => {
     try {
-        const { address } = request.body; // New address data
-        const email = request.query.email; // Email to find the user
+        const { address } = request.body;
+        const email = request.query.email;
 
         if (!email || !address) {
             return response.status(400).json({ message: "Email and address are required." });
         }
 
-        // Find the user by email and update their addresses
         const updatedUser = await userModel.findOneAndUpdate(
             { email: email },
-            { $push: { addresses: address } }, // Push new address to the array
-            { new: true } // Return the updated document
+            { $push: { addresses: address } },
+            { new: true }
         );
 
         if (!updatedUser) {
@@ -120,6 +127,33 @@ userRouter.put("/edit-address", async (request, response) => {
     }
 });
 
+userRouter.put("/update-selected-address", async (request, response) => {
+    const { email, selectedIndex } = request.body;
+
+    if (!email || selectedIndex === undefined) {
+        return response.status(400).json({ message: "Email and selectedIndex are required." });
+    }
+
+    try {
+        const updatedUser = await userModel.findOneAndUpdate(
+            { email: email },
+            { $set: { selectedAddress: selectedIndex } },
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return response.status(404).json({ message: "User not found." });
+        }
+
+        response.status(200).json({
+            message: "Selected address updated successfully",
+            user: updatedUser
+        });
+    } catch (error) {
+        console.error("Error updating selected address:", error);
+        response.status(500).json({ message: "Internal Server Error" });
+    }
+});
     
 
 
@@ -143,7 +177,8 @@ userRouter.post("/login", async (req, res) => {
                 }
                 res.status(200).json({ token });
             });
-        } else {
+        } 
+        else {
             return res.status(400).json({ message: "Invalid password" });
         }
     });

@@ -1,0 +1,25 @@
+.selectAddress {
+    padding: 20px;
+}
+
+.cartSelectAddress div{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    /* border: 2px solid black; */
+    padding: 10px;
+}
+
+.cartSelectAddress div label {
+    /* border: 2px solid blue; */
+    padding: 10px;
+}
+
+.proceedToCheckoutButton {
+    border: 1px solid black;
+    font-weight: 500;
+    background-color: rgb(255, 255, 0);
+    border-radius: 24px;
+    padding: 10px;
+    cursor: pointer;
+}

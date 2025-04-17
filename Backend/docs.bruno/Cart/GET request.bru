@@ -5,9 +5,13 @@ meta {
 }
 
 get {
-  url: http://localhost:3000/product/get-cart
+  url: http://localhost:3000/product/get-cart?email=jasonsucks@gmail.com
   body: json
   auth: none
+}
+
+params:query {
+  email: jasonsucks@gmail.com
 }
 
 body:json {

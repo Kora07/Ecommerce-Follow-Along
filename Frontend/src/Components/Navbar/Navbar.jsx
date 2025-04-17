@@ -24,6 +24,11 @@ function Navbar() {
                 }}> 
                     Add Product 
                 </button>
+                <button className="Profile" onClick={() => {
+                    navigate("/profile")
+                }}> 
+                    Profile
+                </button>
                 <button className="Cart" onClick={() => {
                     navigate("/cart")
                 }}> 
