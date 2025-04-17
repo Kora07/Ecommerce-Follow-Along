@@ -2,7 +2,7 @@ const { Router } = require('express');
 const mongoose = require("mongoose");
 const { productUpload } = require('../../multer');
 const userModel = require("../Model/userModel");
-const productModel = require('../Model/Productmodel');
+const productModel = require('../Model/productModel');
 const productRouter = Router();
 const path = require('path')
 
