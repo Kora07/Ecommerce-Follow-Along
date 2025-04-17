@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const auth = require('../Middleware/auth');
-const user=require("../model/userModel");
+const user=require("../Model/userModel");
 const mongoose = require("mongoose");
 const orderModel = require("../Model/orderSchema");
 const rolemiddleware = require('../Middleware/role');
