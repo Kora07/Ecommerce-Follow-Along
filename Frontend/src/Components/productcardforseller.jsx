@@ -16,7 +16,7 @@ export const Productcardseller = ({image,name,price,description}) => {
 	const handleDelete=async(id)=>{
 		try {
 			const response = await axios.delete(
-				`http://localhost:3000/product/delete-product/${id}`
+				`https://efa-ioi5.onrender.com/product/delete-product/${id}`
 			);
 			if (response.status === 200) {
 				alert("Product deleted successfully!");

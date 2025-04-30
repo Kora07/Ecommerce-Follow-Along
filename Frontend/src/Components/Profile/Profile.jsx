@@ -18,7 +18,7 @@ function Profile() {
         const getUserInfo = async () => {
             try {
                 console.log("User: ", user)
-                const response = await axios.get(`http://localhost:3000/user/get-one-user?email=${user}`);
+                const response = await axios.get(`https://efa-ioi5.onrender.com/user/get-one-user?email=${user}`);
                 console.log(response.data);
                 setUserData(response.data.user);
             } catch (error) {

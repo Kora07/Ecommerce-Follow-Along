@@ -26,7 +26,7 @@ function OrderConfirmation() {
     useEffect(() => {
         const fetchCart = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/product/get-cart?email=${userEmail}`);
+                const response = await axios.get(`https://efa-ioi5.onrender.com/product/get-cart?email=${userEmail}`);
                 console.log("API Response:", response.data);
                 setCart(response.data.userCart || []);
             } catch (error) {
@@ -98,7 +98,7 @@ function OrderConfirmation() {
                             onApprove={async (data, actions) => {
                                 const order1 = actions.order.capture();
                                 try {
-                                    const response = await axios.post('http://localhost:3000/order/verify-payment', {
+                                    const response = await axios.post('https://efa-ioi5.onrender.com/order/verify-payment', {
                                         orderId: order1.id},
                                     )
 

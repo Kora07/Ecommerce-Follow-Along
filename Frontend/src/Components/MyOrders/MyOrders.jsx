@@ -9,7 +9,7 @@ function MyOrders() {
     useEffect(() => {
         const getOrders = async () => {
             try {
-                const response = await axios.get("http://localhost:3000/order/get-orders");
+                const response = await axios.get("https://efa-ioi5.onrender.com/order/get-orders");
                 setOrders(response.data.orders)
                 console.log(response.data.orders);
             }
@@ -23,7 +23,7 @@ function MyOrders() {
 
     const handleOrderCancel = async (id) => {
         try {
-            const response = await axios.put(`http://localhost:3000/order/cancel-order/${id}`);
+            const response = await axios.put(`https://efa-ioi5.onrender.com/order/cancel-order/${id}`);
     
             if (response.status === 200) {
                 setOrders((prevOrders) =>

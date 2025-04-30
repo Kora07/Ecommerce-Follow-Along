@@ -27,7 +27,7 @@ function Cart() {
     useEffect(() => {
         const fetchCart = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/product/get-cart?email=${userEmail}`);
+                const response = await axios.get(`https://efa-ioi5.onrender.com/product/get-cart?email=${userEmail}`);
                 console.log("API Response:", response.data);
 
                 if (Array.isArray(response.data.userCart)) {
@@ -47,7 +47,7 @@ function Cart() {
         
         const handleGetAddress = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/user/get-one-user?email=${userEmail}`);
+                const response = await axios.get(`https://efa-ioi5.onrender.com/user/get-one-user?email=${userEmail}`);
                 console.log("Addresses Fetched: ");
                 setAddresses(response.data.user);
                 console.log(addresses);
@@ -75,14 +75,14 @@ function Cart() {
         };
 
         try {
-            await axios.put("http://localhost:3000/product/edit-cart", {
+            await axios.put("https://efa-ioi5.onrender.com/product/edit-cart", {
                 email: userEmail,
                 productId,
                 quantity: newQuantity,
             });
 
             // Fetch updated cart after update
-            const response = await axios.get(`http://localhost:3000/product/get-cart?email=${userEmail}`);
+            const response = await axios.get(`https://efa-ioi5.onrender.com/product/get-cart?email=${userEmail}`);
             setCart(response.data.userCart);
         } 
         catch (error) {
@@ -95,7 +95,7 @@ function Cart() {
 
     // const handleGetAddress = async () => {
     //     try {
-    //         const response = await axios.get(`http://localhost:3000/user/get-one-user?email=${email}`);
+    //         const response = await axios.get(`https://efa-ioi5.onrender.com/user/get-one-user?email=${email}`);
     //         console.log(response.user.addresses);
     //         setAddresses(response.user.addresses);
     //     }

@@ -19,7 +19,7 @@ function Address() {
     });
 
     const handleAddAddress = async () => {
-        await axios.put(`http://localhost:3000/user/edit-address?email=${email}`, {
+        await axios.put(`https://efa-ioi5.onrender.com/user/edit-address?email=${email}`, {
             address: address,
         })
         .then((response) => {

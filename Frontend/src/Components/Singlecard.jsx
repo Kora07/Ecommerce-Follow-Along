@@ -26,7 +26,7 @@ import { useParams } from 'react-router-dom'
         useEffect(()=>{
             const fetchProduct = async () => {
                 try {
-                    const response = await axios.get(`https://localhost:3000/products/${id}`);
+                    const response = await axios.get(`https://efa-ioi5.onrender.com/products/${id}`);
                     
                     console.log("Fetched product:", response.data.product);
                     setProduct(response.data.product);
@@ -54,7 +54,7 @@ import { useParams } from 'react-router-dom'
             <div className="w-full bsm:w-2/3 md:w-1/3 rounded-lg">
         {product.images && product.images.length > 0 ? (
             <img
-                src={`http://localhost:3000${product.images[0]}`}
+                src={`https://efa-ioi5.onrender.com/${product.images[0]}`}
                 alt={product.name}
                 className="w-full h-full object-contain bsm:object-cover"
                 style={{ maxHeight: "500px" }} // Adjust the max height as needed

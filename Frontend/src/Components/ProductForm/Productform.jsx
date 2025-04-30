@@ -25,7 +25,7 @@ export const ProductForm = () => {
 	useEffect(() => {
 		if (id) {
 			axios
-				.get(`http://localhost:3000/product/edit-product/${id}`)
+				.get(`https://efa-ioi5.onrender.com/product/edit-product/${id}`)
 				.then((response) => {
 					const p = response.data.product;
 					console.log(p)
@@ -74,7 +74,7 @@ export const ProductForm = () => {
 		try {
 
 			if (isEdit) {
-				const response = await axios.put(`http://localhost:3000/product/edit-product/${id}`,
+				const response = await axios.put(`https://efa-ioi5.onrender.com/product/edit-product/${id}`,
 					formData, {
 						headers: { "Content-Type": "multipart/form-data" },
 					}
@@ -85,7 +85,7 @@ export const ProductForm = () => {
 				}
 			}
 			else {
-				const res = await axios.post("http://localhost:3000/product/post-product", 
+				const res = await axios.post("https://efa-ioi5.onrender.com/product/post-product", 
 					formData, {
 						headers: { "Content-Type": "multipart/form-data", 
 					},

@@ -43,7 +43,7 @@ export const Signup = () => {
             }
         }
 
-        await axios.post('http://localhost:3000/user/create-user', formData, config)
+        await axios.post('https://efa-ioi5.onrender.com/user/create-user', formData, config)
 		.then((res) => {
             console.log(res.data)
         })

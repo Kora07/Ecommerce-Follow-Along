@@ -9,7 +9,7 @@ const Products = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/product/get-product');
+                const response = await axios.get('https://efa-ioi5.onrender.com/product/get-product');
                 if (response.status === 200) {
                     setProducts(response.data.info);
                     console.log("Products: ", response.data.info);

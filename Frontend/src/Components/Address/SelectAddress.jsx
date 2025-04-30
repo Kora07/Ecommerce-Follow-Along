@@ -16,7 +16,7 @@ function SelectAddress() {
     useEffect(() => {
         const handleGetAddress = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/user/get-one-user?email=${user}`);
+                const response = await axios.get(`https://efa-ioi5.onrender.com/user/get-one-user?email=${user}`);
                 console.log("Addresses Fetched: ");
                 setAddresses(response.data.user?.addresses || []); // Fix: Only set the addresses
             }
