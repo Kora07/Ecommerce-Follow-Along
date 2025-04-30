@@ -2,7 +2,7 @@ import axios from "axios"
 
 export const loginUser = (data) => async (dispatch) => {
     try {
-        const response = await axios.post('http://localhost:3000/user/login', data);
+        const response = await axios.post('https://efa-ioi5.onrender.com/user/login', data);
 
         if (response.status === 200) {
             dispatch({ type: 'LOGIN_SUCCESS', payload: response.data.token });
