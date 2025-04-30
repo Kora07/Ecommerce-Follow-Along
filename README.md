@@ -271,3 +271,10 @@ Created a JWT token and stored it in a cookie.
 
 #
 
+### Milestone 34
+Extracted JWT token to send to the server
+
+#
+
+### Milestone 35 
+Deployed Backend and Frontend
