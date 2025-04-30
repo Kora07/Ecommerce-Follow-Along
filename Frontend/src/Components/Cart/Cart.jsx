@@ -67,7 +67,7 @@ function Cart() {
     const updateQuantity = async (productId, newQuantity) => {
         if (newQuantity == 0) {
             try {
-                
+                // Nothing
             }
             catch (error) {
                 console.log(error);

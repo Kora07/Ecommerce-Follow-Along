@@ -40,7 +40,7 @@ export const Productcard = ({ image = [], name, price, description, productId })
         }
 
         try {
-            const response = await axios.post('http://localhost:3000/product/post-cart', {
+            const response = await axios.post('https://efa-ioi5.onrender.com/product/post-cart', {
                 email: userEmail,
                 productId,
                 productname: name,
